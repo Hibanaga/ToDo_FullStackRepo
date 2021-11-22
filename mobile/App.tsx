@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+// import axios from "axios";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { NativeRouter } from "react-router-native";
+import Router from "./src/Router/Router";
+
+// http://192.168.0.21:5002/api/todos
+// axios
+//   .get("http://192.168.0.21:5002/api/todos")
+//   .then((data) => console.log(data.data));
 
 export default function App() {
-  useEffect(() => {
-    fetch("/api/todos")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
-
   return (
-    <View>
-      <Text>Text</Text>
-    </View>
+    <NativeRouter>
+      <View style={styles.container}>
+        <Router />
+      </View>
+    </NativeRouter>
   );
 }
 
