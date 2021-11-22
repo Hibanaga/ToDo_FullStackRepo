@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 router.init();
 
-
 // TODO: Move that to model GraphQL
 const schema = buildSchema(`
   type Query {
@@ -36,13 +35,15 @@ const rootValue = {
   },
 };
 
-
 // TODO: Move that to router init function ONLY AFTER MAIN PART OF APP
-app.use("/graphql", graphqlHTTP({
-  schema,
-  rootValue,
-  graphiql: true
-}));
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    rootValue,
+    graphiql: true,
+  })
+);
 
 const port = app.get("port");
 const server = app.listen(port, () =>
