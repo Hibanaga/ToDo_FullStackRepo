@@ -1,5 +1,6 @@
+import { ITodo } from "./../models/ToDo";
 // TODO: Put a real interfaces here
 
-export interface ITodo {
-    data: string;
-}
+// const joi = require("joi");
+
+// const schema = Joi.object()
