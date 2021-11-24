@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "Precommit hook is running..."
-USER_NAME="Hibanaga"
+USER_NAME="v_tykhoniuk"
 ESLINT_MOBILE="$(git rev-parse --show-toplevel)/mobile/node_modules/.bin/eslint"
 MOBILE_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '(^mobile)(.*)(ts$|tsx$)')
 BACKEND_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '(^server)(.*)(ts$)')

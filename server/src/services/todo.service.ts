@@ -4,53 +4,50 @@ import { todoSchema } from "../Validation/SchemeValidation";
 
 export default class TodoService {
   async recieveAll(current: number, size: number) {
-    const currentPage = current || 1;
-    const pageSize = size || 5;
-    const skipElements = (currentPage - 1) * pageSize;
-    const items = await Todo.find().skip(skipElements).limit(pageSize);
-    return items;
+    try {
+      const currentPage = current || 1;
+      const pageSize = size || 5;
+      const skipElements = (currentPage - 1) * pageSize;
+      const items = await Todo.find().skip(skipElements).limit(pageSize);
+      return { code: 200, result: items };
+    } catch (error) {
+      return { code: 400, result: error };
+    }
   }
 
   async findOne(_id: string) {
-    const existingItem = await Todo.exists({ _id });
-    if (existingItem) {
+    try {
       const item = await Todo.findById({ _id });
       return { code: 200, result: item };
-    } else {
-      return { code: 400 };
+    } catch (error) {
+      return { code: 400, result: error };
     }
   }
 
   async add(item: ITodo) {
-    const { error } = todoSchema.validate(item);
-    const existingItem = Todo.exists({ title: item.title });
-
-    if (error === undefined && existingItem) {
+    try {
       const result = await Todo.create(item);
       return { code: 200, result };
-    } else {
-      return { code: 400 };
+    } catch (error) {
+      return { code: 400, result: error };
     }
   }
 
   async update(_id: string, item: ITodo) {
-    const { error } = todoSchema.validate(item);
-    if (error === undefined) {
+    try {
       const result = await Todo.findByIdAndUpdate(_id, item);
       return { code: 200, result };
-    } else {
-      return { code: 400 };
+    } catch (error) {
+      return { code: 400, result: error };
     }
   }
 
   async delete(_id: string) {
-    const existingItem = await Todo.exists({ _id });
-
-    if (existingItem) {
+    try {
       const result = await Todo.deleteOne({ _id });
       return { code: 200, result };
-    } else {
-      return { code: 400 };
+    } catch (error) {
+      return { code: 400, result: error };
     }
   }
 }
