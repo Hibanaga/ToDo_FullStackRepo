@@ -1,20 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Link } from "react-router-native";
-import { login, register } from "../../Router/routes";
 
 export default function HomeScreen() {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>todoAPP</Text>
-
-      <Link to={login} style={styles.linkItem}>
-        <Text style={styles.linkItemText}>Login</Text>
-      </Link>
-
-      <Link to={register} style={styles.linkItem}>
-        <Text style={styles.linkItemText}>Register</Text>
-      </Link>
     </View>
   );
 }

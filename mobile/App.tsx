@@ -1,7 +1,6 @@
 // import axios from "axios";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { NativeRouter } from "react-router-native";
 import Router from "./src/Router/Router";
 
 // http://192.168.0.21:5002/api/todos
@@ -11,11 +10,9 @@ import Router from "./src/Router/Router";
 
 export default function App() {
   return (
-    <NativeRouter>
-      <View style={styles.container}>
-        <Router />
-      </View>
-    </NativeRouter>
+    <View style={styles.container}>
+      <Router />
+    </View>
   );
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import ToDoScreen from "../screens/ToDo/ToDoScreen";
 // import Login from "../screens/Auth/login/Login";
 // import RegisterScreen from "../screens/Auth/register/RegisterScreen";
 // import HomeScreen from "../screens/home/HomeScreen";
@@ -6,11 +7,8 @@ import React from "react";
 
 export default function Router() {
   return (
-    // <Routes>
-    //   <Route path={home} element={<HomeScreen />} />
-    //   <Route path={login} element={<Login />} />
-    //   <Route path={register} element={<RegisterScreen />} />
-    // </Routes>
-    <> </>
+    <>
+      <ToDoScreen />
+    </>
   );
 }
