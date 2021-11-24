@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { Link } from "react-router-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+
 import LoginForm from "./components/loginForm";
-import { home, register } from "../../../Router/routes";
+// import { home, register } from "../../../Router/routes";
 
 interface formLoginProp {
   username: string;
@@ -25,13 +25,13 @@ function LoginScreen({ onSubmitLoginFormHandler }: any) {
         onSubmitLoginFormHandler={onSubmitLoginFormHandler}
       />
 
-      <Link to={home}>
+      <TouchableOpacity onPress={() => console.log("aaa")}>
         <Text>welcome page</Text>
-      </Link>
+      </TouchableOpacity>
 
-      <Link to={register}>
+      <TouchableOpacity onPress={() => console.log("aaa")}>
         <Text>register page</Text>
-      </Link>
+      </TouchableOpacity>
     </View>
   );
 }
