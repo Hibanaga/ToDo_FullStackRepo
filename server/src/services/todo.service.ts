@@ -1,6 +1,5 @@
 import { ITodo } from "../models/ToDo";
 import Todo from "../models/ToDo";
-import { Errors } from "./message.service.response";
 
 export default class TodoService {
   async recieveAll(current: number, size: number) {
@@ -27,11 +26,6 @@ export default class TodoService {
   }
 
   async exist(_id: string, options: string) {
-    try {
-      const isExist = await Todo.exists({ [options]: _id });
-      return isExist;
-    } catch (error) {
-      return Errors.NotFound;
-    }
+    return await Todo.exists({ [options]: _id });
   }
 }

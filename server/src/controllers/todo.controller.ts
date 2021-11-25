@@ -20,11 +20,13 @@ export class TodoController {
       //check exist of item id DB with current id
       const isExists = await this.todoService.exist(String(_id), "_id");
       //if not exist throw error
-      if (isExists !== true) throw isExists;
+      if (isExists === false) throw { message: "notFound" };
       const data = await this.todoService.findOne(String(_id));
       return res.json({ message: Success.SuccessGet, data });
-    } catch (error) {
-      res.json({ message: error });
+    } catch ({ message }) {
+      return message === "notFound"
+        ? res.json(Errors.NotFound)
+        : res.json(Errors.BadRequest);
     }
   }
 
@@ -51,36 +53,31 @@ export class TodoController {
     try {
       //check exist of item id DB with current id
       const isExists = await this.todoService.exist(_id, "_id");
-      if (isExists !== true) throw isExists;
+      if (isExists === false) throw { message: "notFound" };
       const data = await this.todoService.update(_id, state);
       res.json({ message: Success.SuccessUpdate, data });
-    } catch (error) {
-      return error === false
-        ? res.json(Errors.BadRequest)
-        : res.json(Errors.NotFound);
+    } catch ({ message }) {
+      return message === "notFound"
+        ? res.json(Errors.NotFound)
+        : res.json(Errors.BadRequest);
     }
   }
 
   async deleteToDo(_: Request, res: Response) {
     const { _id } = _.query;
-
     try {
       //check exist of item id DB with current id
       const isExists = await this.todoService.exist(String(_id), "_id");
       //if not exist throw error
-      if (isExists !== true) throw isExists;
+      if (isExists === false) throw { message: "notFound" };
       //create a deleted obj data
       const data = await this.todoService.delete(String(_id));
       res.json({ message: Success.SuccessDelete, data });
-    } catch (error) {
-      return error === false
+    } catch ({ message }) {
+      return message === "notFound"
         ? res.json(Errors.BadRequest)
-        : res.json(Errors.NotFound);
+        : res.json(Errors.BadRequest);
     }
-  }
-
-  async badRequest(_: Request, res: Response) {
-    return res.json(Errors.InternalServerError);
   }
 }
 
