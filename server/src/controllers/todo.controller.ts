@@ -5,20 +5,23 @@ import TodoService from "../services/todo.service";
 export class TodoController {
   constructor(private todoService: TodoService) {}
   async getAllToDo(_: Request, res: Response) {
-    const { current, size } = _.body;
-    const data = await this.todoService.recieveAll(current, size);
+    const { current, size } = _.query;
+    const data = await this.todoService.recieveAll(
+      Number(current),
+      Number(size)
+    );
 
     res.send({ message: Success.SuccessGet, data });
   }
 
   async getToDo(_: Request, res: Response) {
-    const { _id } = _.body;
+    const { _id } = _.query;
     try {
       //check exist of item id DB with current id
-      const isExists = await this.todoService.exist(_id, "_id");
+      const isExists = await this.todoService.exist(String(_id), "_id");
       //if not exist throw error
       if (isExists !== true) throw isExists;
-      const data = await this.todoService.findOne(_id);
+      const data = await this.todoService.findOne(String(_id));
       return res.json({ message: Success.SuccessGet, data });
     } catch (error) {
       res.json({ message: error });
@@ -59,14 +62,15 @@ export class TodoController {
   }
 
   async deleteToDo(_: Request, res: Response) {
-    const { _id } = _.body;
+    const { _id } = _.query;
+
     try {
       //check exist of item id DB with current id
-      const isExists = await this.todoService.exist(_id, "_id");
+      const isExists = await this.todoService.exist(String(_id), "_id");
       //if not exist throw error
       if (isExists !== true) throw isExists;
       //create a deleted obj data
-      const data = await this.todoService.delete(_id);
+      const data = await this.todoService.delete(String(_id));
       res.json({ message: Success.SuccessDelete, data });
     } catch (error) {
       return error === false

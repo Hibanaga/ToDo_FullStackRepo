@@ -1,26 +1,18 @@
 // import axios from "axios";
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import Router from "./src/Router/Router";
-
-// http://192.168.0.21:5002/api/todos
-// axios
-//   .get("http://192.168.0.21:5002/api/todos")
-//   .then((data) => console.log(data.data));
+import { QueryClient, QueryClientProvider } from "react-query";
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import Navigator from "./src/screens/navigators/index";
 
 export default function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <View style={styles.container}>
-      <Router />
-    </View>
+    <NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <Navigator />
+      </QueryClientProvider>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

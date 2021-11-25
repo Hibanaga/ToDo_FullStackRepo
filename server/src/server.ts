@@ -6,6 +6,7 @@ import { graphqlHTTP } from "express-graphql";
 import { buildSchema } from "graphql";
 import AppRouter from "./routes";
 import axios from "axios";
+let cors = require("cors");
 
 const app = express();
 const router = new AppRouter(app);
@@ -15,6 +16,7 @@ connectDB();
 // Express configuration
 app.set("port", process.env.PORT || 5000);
 app.use(bodyParser.json());
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 router.init();

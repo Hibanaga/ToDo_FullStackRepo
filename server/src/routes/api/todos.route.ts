@@ -18,9 +18,9 @@ todosRouter.put(
   todoController.updateToDo.bind(todoController)
 );
 todosRouter.delete("", todoController.deleteToDo.bind(todoController));
-todosRouter.get("*", todoController.badRequest.bind(todoController));
-todosRouter.post("*", todoController.badRequest.bind(todoController));
-todosRouter.put("*", todoController.badRequest.bind(todoController));
-todosRouter.delete("*", todoController.badRequest.bind(todoController));
+// todosRouter.get("*", todoController.badRequest.bind(todoController));
+// todosRouter.post("*", todoController.badRequest.bind(todoController));
+// todosRouter.put("*", todoController.badRequest.bind(todoController));
+// todosRouter.delete("*", todoController.badRequest.bind(todoController));
 
 export default todosRouter;

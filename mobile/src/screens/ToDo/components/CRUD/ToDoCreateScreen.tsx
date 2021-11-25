@@ -2,10 +2,25 @@ import React, { useCallback } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import FormTodo from "../formTodo";
 import { IToDo } from "../../types/todos.type";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../../navigators/index";
+import { addToDo } from "../../../../service/requests";
+import { useQueryClient } from "react-query";
 
-function ToDoCreateScreen() {
+type ToDoScreenNavigationProps = StackNavigationProp<AuthStackParamList>;
+
+interface ToDoScreenProp {
+  navigation: ToDoScreenNavigationProps;
+}
+
+const ToDoCreateScreen: React.FunctionComponent<ToDoScreenProp> = ({
+  navigation,
+}) => {
+  const queryClient = useQueryClient();
   const submitFormHandler = useCallback((obj: IToDo) => {
-    console.log(obj);
+    addToDo(obj)
+      .then(() => queryClient.invalidateQueries("todos"))
+      .then(() => navigation.navigate("ToDoScreen"));
   }, []);
 
   return (
@@ -14,7 +29,7 @@ function ToDoCreateScreen() {
       <FormTodo onSubmitFormHandler={submitFormHandler} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
