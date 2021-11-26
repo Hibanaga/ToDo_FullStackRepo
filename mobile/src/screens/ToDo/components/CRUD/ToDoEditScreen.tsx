@@ -1,28 +1,26 @@
 import React, { useCallback } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import FormTodo from "../formTodo";
+import FormTodo from "../FormTodo";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../../../navigators/index";
 import { useQuery } from "react-query";
-import { getToDo } from "../../../../service/requests";
-import { updateToDo } from "../../../../service/requests";
+import { getToDo, updateToDo } from "../../../../service/todos.service";
 import { useQueryClient } from "react-query";
-import { IToDo } from "../../types/todos.type";
+import { IToDo, IRoute } from "../../types/todos.type";
 
 type ToDoEditScreenNavigationProps = StackNavigationProp<AuthStackParamList>;
 
-interface ToDoEditScreenProp {
+interface IToDoEditScreenProp {
   navigation: ToDoEditScreenNavigationProps;
-  route: any;
+  route: IRoute;
 }
 
-const ToDoEditScreen: React.FunctionComponent<ToDoEditScreenProp> = ({
+const ToDoEditScreen: React.FunctionComponent<IToDoEditScreenProp> = ({
   route,
   navigation,
 }) => {
   const { _id } = route.params;
   const queryClient = useQueryClient();
-
   const { data, isSuccess } = useQuery(["todos", { _id }], getToDo);
 
   const submitFormHandler = useCallback((obj: IToDo) => {

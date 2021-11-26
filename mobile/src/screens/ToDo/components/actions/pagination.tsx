@@ -1,23 +1,23 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-interface stateProp {
+interface IStateProp {
   currentPage: number;
-  isSuccess: any;
+  isSuccess: boolean;
   limit: number;
-  data: any;
+  length: number;
   onChangePrevPage: () => void;
   onChangeNextPage: () => void;
 }
 
-export default function pagination({
+const Pagination = ({
   currentPage,
   isSuccess,
   limit,
-  data,
+  length,
   onChangePrevPage,
   onChangeNextPage,
-}: stateProp) {
+}: IStateProp) => {
   return (
     <>
       <TouchableOpacity
@@ -30,14 +30,14 @@ export default function pagination({
 
       <TouchableOpacity
         style={styles.nextBtnAction}
-        disabled={isSuccess && data.length < limit}
+        disabled={isSuccess && length < limit}
         onPress={() => onChangeNextPage()}
       >
         <Text style={styles.btnActionText}>next</Text>
       </TouchableOpacity>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   prevBtnAction: {
@@ -74,3 +74,5 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
 });
+
+export default Pagination;

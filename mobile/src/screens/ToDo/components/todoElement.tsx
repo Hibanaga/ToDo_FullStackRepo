@@ -1,10 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
 import { IToDoElement } from "../types/todos.type";
 import { infoToDos } from "../constants/info.constants";
 
-export default function todoElement({
+const TodoElement = ({
   _id,
   description,
   title,
@@ -13,7 +12,7 @@ export default function todoElement({
   isPublic,
   onDeleteToDosHandler,
   onEditToDosHandler,
-}: IToDoElement) {
+}: IToDoElement) => {
   return (
     <View style={styles.container}>
       <View style={styles.containerInfo}>
@@ -54,7 +53,7 @@ export default function todoElement({
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -63,8 +62,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: 330,
-    // borderWidth: 1,
-    // borderColor: "#333",
   },
   containerInfo: {
     display: "flex",
@@ -117,3 +114,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+export default TodoElement;

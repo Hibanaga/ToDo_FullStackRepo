@@ -9,34 +9,22 @@ import {
   CheckBox,
 } from "react-native";
 import { ToDoValidationScheme } from "../validation/validation.scheme";
+import { IToDo } from "../types/todos.type";
+import ErrorNotification from "./actions/ErrorNotification";
 
-interface stateProp {
-  state?: any;
+interface IStateProp {
+  state: IToDo;
   option?: string;
 
-  onSubmitFormHandler: ({}: any) => void;
+  onSubmitFormHandler: ({}: IToDo) => void;
 }
 
-export default function formTodo({
-  onSubmitFormHandler,
-  state,
-  option,
-}: stateProp) {
+const FormTodo = ({ onSubmitFormHandler, state, option }: IStateProp) => {
   return (
     <Formik
-      initialValues={
-        option === "edit"
-          ? state
-          : {
-              title: "",
-              description: "",
-              year: 2021,
-              isPublic: false,
-              isComplete: false,
-            }
-      }
+      initialValues={state}
       validationSchema={ToDoValidationScheme}
-      onSubmit={(values) => onSubmitFormHandler(values)}
+      onSubmit={(values: IToDo) => onSubmitFormHandler(values)}
     >
       {({
         handleChange,
@@ -50,9 +38,12 @@ export default function formTodo({
           <View>
             <Text style={styles["subTitle"]}>Title</Text>
 
-            {errors.title && (
-              <Text style={{ fontSize: 10, color: "red" }}>{errors.title}</Text>
-            )}
+            {/* {errors.title && (
+              <Text style={styles.errorText}>{errors.title}</Text>
+            )} */}
+
+            <ErrorNotification errorMessage={errors.title} />
+
             <TextInput
               style={styles["input"]}
               onChangeText={handleChange("title")}
@@ -62,11 +53,8 @@ export default function formTodo({
 
           <View>
             <Text style={styles.subTitle}>Description</Text>
-            {errors.description && (
-              <Text style={{ fontSize: 10, color: "red" }}>
-                {errors.description}
-              </Text>
-            )}
+
+            <ErrorNotification errorMessage={errors.description} />
             <TextInput
               style={styles.inputTextArea}
               numberOfLines={4}
@@ -79,11 +67,7 @@ export default function formTodo({
           <View>
             <Text style={styles.subTitle}>Year</Text>
 
-            {errors.year && (
-              <Text style={{ fontSize: 10, color: "red" }}>
-                {errors.description}
-              </Text>
-            )}
+            <ErrorNotification errorMessage={errors.year} />
 
             <TextInput
               style={styles.input}
@@ -96,31 +80,20 @@ export default function formTodo({
           <View style={styles.checkboxContainer}>
             <Text style={styles.subTitle}>Public</Text>
 
-            {errors.isPublic && (
-              <Text style={{ fontSize: 10, color: "red" }}>
-                {errors.isPublic}
-              </Text>
-            )}
+            <ErrorNotification errorMessage={errors.isPublic} />
             <CheckBox
               value={values.isPublic}
-              onChange={(nextValue: any) =>
-                setFieldValue("isPublic", nextValue.nativeEvent.value)
-              }
+              onChange={() => setFieldValue("isPublic", !values.isComplete)}
             />
           </View>
 
           <View style={styles.checkboxContainer}>
             <Text style={styles.subTitle}>Completed</Text>
-            {errors.isComplete && (
-              <Text style={{ fontSize: 10, color: "red" }}>
-                {errors.isComplete}
-              </Text>
-            )}
+
+            <ErrorNotification errorMessage={errors.isComplete} />
             <CheckBox
               value={values.isComplete}
-              onChange={(nextValue: any) =>
-                setFieldValue("isComplete", nextValue.nativeEvent.value)
-              }
+              onChange={() => setFieldValue("isComplete", !values.isComplete)}
             />
           </View>
 
@@ -137,7 +110,7 @@ export default function formTodo({
       )}
     </Formik>
   );
-}
+};
 
 const styles = StyleSheet.create({
   subTitle: {
@@ -181,9 +154,12 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginTop: 24,
   },
+
   buttonText: {
     textAlign: "center",
     color: "#333",
     fontSize: 16,
   },
 });
+
+export default FormTodo;

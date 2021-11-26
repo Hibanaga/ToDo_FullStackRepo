@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-export const todoSchema = Joi.object().keys({
+const todoSchema = Joi.object().keys({
   _id: Joi.string(),
   title: Joi.string().min(3).max(50).required(),
   description: Joi.string().required(),
@@ -8,3 +8,16 @@ export const todoSchema = Joi.object().keys({
   isPublic: Joi.boolean().required(),
   isComplete: Joi.boolean().required(),
 });
+
+const userSchema = Joi.object().keys({
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ["com", "net"] },
+    })
+    .required(),
+  password: Joi.string().min(3).max(15).required(),
+  avatar: Joi.string(),
+});
+
+export { todoSchema, userSchema };

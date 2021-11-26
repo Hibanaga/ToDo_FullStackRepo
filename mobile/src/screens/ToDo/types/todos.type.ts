@@ -4,19 +4,48 @@ interface IToDo {
   year: number;
   isPublic: boolean;
   isComplete: boolean;
-  _id: string;
+  _id?: string;
   __v?: number;
 }
 
-interface IToDoElement {
+interface IToDoMap {
   title: string;
   description: string;
   year: number;
   isPublic: boolean;
   isComplete: boolean;
   _id: string;
+}
+
+interface IToDoElement {
+  _id: string;
+  title: string;
+  description: string;
+  year: number;
+  isPublic: boolean;
+  isComplete: boolean;
+
   onEditToDosHandler: (_id: string) => void;
   onDeleteToDosHandler: (_id: string) => void;
 }
 
-export { IToDo, IToDoElement };
+interface IRoute {
+  key: string;
+  name: string;
+  path: undefined;
+  params: {
+    _id: string;
+  };
+}
+
+interface IQueryKeyPropGet {
+  queryKey: [
+    nameCatalog: string,
+    prop: {
+      currentPage: number;
+      limit: number;
+    }
+  ];
+}
+
+export { IToDo, IToDoElement, IRoute, IToDoMap, IQueryKeyPropGet };

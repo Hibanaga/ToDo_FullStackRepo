@@ -9,4 +9,12 @@ const infoToDos = {
   },
 };
 
-export { infoToDos };
+const initialState = {
+  title: "",
+  description: "",
+  year: 2021,
+  isPublic: false,
+  isComplete: false,
+};
+
+export { infoToDos, initialState };

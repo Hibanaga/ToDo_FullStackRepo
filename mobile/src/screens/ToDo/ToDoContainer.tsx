@@ -2,30 +2,29 @@ import React, { useCallback, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthStackParamList } from "../navigators/index";
-import TodoElement from "../ToDo/components/todoElement";
-import { IToDo } from "./types/todos.type";
+import TodoElement from "./components/TodoElement";
+import { IToDoMap } from "./types/todos.type";
 import { useQuery, useQueryClient } from "react-query";
-import { getTodos, removeTodo } from "../../service/requests";
-import Pagination from "./components/actions/pagination";
+import { getTodos, removeTodo } from "../../service/todos.service";
+import Pagination from "./components/actions/Pagination";
 
 type ToDoAddScreenNavigationProps = StackNavigationProp<AuthStackParamList>;
-interface ToDoAddScreenProp {
+interface IToDoAddScreenProp {
   navigation: ToDoAddScreenNavigationProps;
 }
 
-const ToDoScreen: React.FunctionComponent<ToDoAddScreenProp> = ({
+const ToDoScreen: React.FunctionComponent<IToDoAddScreenProp> = ({
   navigation,
 }) => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
-  const limit = 2;
+  const limit = 4;
   const { data, isLoading, isSuccess, isError } = useQuery(
     ["todos", { currentPage, limit }],
     getTodos
   );
 
   const editToDosHandler = useCallback((_id: string) => {
-    // navigation.navigate("ToDoEdit", { _id });
     navigation.navigate("ToDoEdit", { _id });
   }, []);
 
@@ -61,7 +60,7 @@ const ToDoScreen: React.FunctionComponent<ToDoAddScreenProp> = ({
               year,
               isComplete,
               isPublic,
-            }: IToDo) => (
+            }: IToDoMap) => (
               <TodoElement
                 key={_id}
                 _id={_id}
@@ -78,14 +77,16 @@ const ToDoScreen: React.FunctionComponent<ToDoAddScreenProp> = ({
         </View>
       )}
 
-      <Pagination
-        currentPage={currentPage}
-        isSuccess={isSuccess}
-        limit={limit}
-        data={data}
-        onChangeNextPage={handleChangeNextPage}
-        onChangePrevPage={handleChangePrevPage}
-      />
+      {isSuccess && (
+        <Pagination
+          currentPage={currentPage}
+          isSuccess={isSuccess}
+          limit={limit}
+          length={data.length}
+          onChangeNextPage={handleChangeNextPage}
+          onChangePrevPage={handleChangePrevPage}
+        />
+      )}
     </View>
   );
 };
