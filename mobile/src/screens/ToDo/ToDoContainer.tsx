@@ -1,27 +1,18 @@
 import React, { useCallback, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { AuthStackParamList } from "../navigators/index";
-import TodoElement from "./components/TodoElement";
-import { IToDoMap } from "./types/todos.type";
+import { IToDoScreenProp } from "../../types/navigation.type";
 import { useQuery, useQueryClient } from "react-query";
-import { getTodos, removeTodo } from "../../service/todos.service";
+import instance from "../../service/todos.service";
 import Pagination from "./components/actions/Pagination";
+import ToDoList from "./components/CRUD/ToDoList";
 
-type ToDoAddScreenNavigationProps = StackNavigationProp<AuthStackParamList>;
-interface IToDoAddScreenProp {
-  navigation: ToDoAddScreenNavigationProps;
-}
-
-const ToDoScreen: React.FunctionComponent<IToDoAddScreenProp> = ({
-  navigation,
-}) => {
+const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 4;
   const { data, isLoading, isSuccess, isError } = useQuery(
     ["todos", { currentPage, limit }],
-    getTodos
+    instance.gets.bind(instance)
   );
 
   const editToDosHandler = useCallback((_id: string) => {
@@ -29,14 +20,13 @@ const ToDoScreen: React.FunctionComponent<IToDoAddScreenProp> = ({
   }, []);
 
   const deleteToDosHandler = useCallback((_id: string) => {
-    removeTodo(_id).then(() => {
+    instance.remove(_id).then(() => {
       queryClient.invalidateQueries("todos");
     });
   }, []);
 
   const handleChangePrevPage = () => setCurrentPage(currentPage - 1);
   const handleChangeNextPage = () => setCurrentPage(currentPage + 1);
-
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -51,30 +41,11 @@ const ToDoScreen: React.FunctionComponent<IToDoAddScreenProp> = ({
       {isLoading && <Text>Loading...</Text>}
 
       {isSuccess && (
-        <View>
-          {data.map(
-            ({
-              _id,
-              description,
-              title,
-              year,
-              isComplete,
-              isPublic,
-            }: IToDoMap) => (
-              <TodoElement
-                key={_id}
-                _id={_id}
-                onEditToDosHandler={editToDosHandler}
-                onDeleteToDosHandler={deleteToDosHandler}
-                description={description}
-                title={title}
-                year={year}
-                isComplete={isComplete}
-                isPublic={isPublic}
-              />
-            )
-          )}
-        </View>
+        <ToDoList
+          data={data}
+          onDeleteToDosHandler={deleteToDosHandler}
+          onEditToDosHandler={editToDosHandler}
+        />
       )}
 
       {isSuccess && (
@@ -97,7 +68,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     height: "100%",
-    width: "100%",
+    width: 320,
+    marginHorizontal: "auto",
   },
 
   routeCreate: {

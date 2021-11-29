@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { IToDoElement } from "../types/todos.type";
+import { IToDoElement } from "../../../types/todos.type";
 import { infoToDos } from "../constants/info.constants";
 
 const TodoElement = ({

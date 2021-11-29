@@ -1,27 +1,20 @@
 import React, { useCallback } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import FormTodo from "../FormTodo";
-import { IToDo } from "../../types/todos.type";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { AuthStackParamList } from "../../../navigators/index";
-import { addToDo } from "../../../../service/todos.service";
+import { IToDo } from "../../../../types/todos.type";
+import instance from "../../../../service/todos.service";
 import { useQueryClient } from "react-query";
 import { initialState } from "../../constants/info.constants";
+import { useNavigation } from "@react-navigation/native";
 
-type ToDoScreenNavigationProps = StackNavigationProp<AuthStackParamList>;
-
-interface IToDoScreenProp {
-  navigation: ToDoScreenNavigationProps;
-}
-
-const ToDoCreateScreen: React.FunctionComponent<IToDoScreenProp> = ({
-  navigation,
-}) => {
+const ToDoCreateScreen = () => {
+  const navigation = useNavigation();
   const queryClient = useQueryClient();
   const submitFormHandler = useCallback((obj: IToDo) => {
-    addToDo(obj)
+    instance
+      .add(obj)
       .then(() => queryClient.invalidateQueries("todos"))
-      .then(() => navigation.navigate("ToDoScreen"));
+      .then(() => navigation.goBack());
   }, []);
 
   return (

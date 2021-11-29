@@ -38,14 +38,8 @@ interface IRoute {
   };
 }
 
-interface IQueryKeyPropGet {
-  queryKey: [
-    nameCatalog: string,
-    prop: {
-      currentPage: number;
-      limit: number;
-    }
-  ];
+interface IQueryKeyProp {
+  queryKey: any;
 }
 
-export { IToDo, IToDoElement, IRoute, IToDoMap, IQueryKeyPropGet };
+export { IToDo, IToDoElement, IRoute, IToDoMap, IQueryKeyProp };

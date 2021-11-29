@@ -7,7 +7,6 @@ export default class UserService {
   async save(data: IUser) {
     return await User.create(data);
   }
-  async checkLogin() {}
 
   async findOne(email: string) {
     return await User.findOne({ email });

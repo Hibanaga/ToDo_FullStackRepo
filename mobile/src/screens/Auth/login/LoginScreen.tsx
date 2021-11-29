@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { ILoginProp } from "../../../types/user.type";
+import LoginForm from "./components/LoginForm";
+import instance from "../../../service/user.service";
+import { IToDoScreenProp } from "../../../types/navigation.type";
 
-import LoginForm from "./components/loginForm";
-// import { home, register } from "../../../Router/routes";
-
-interface formLoginProp {
-  username: string;
-  password: string;
-}
-
-function LoginScreen({ onSubmitLoginFormHandler }: any) {
-  const initialValues: formLoginProp = {
+const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
+  const initialValues: ILoginProp = {
     username: "",
     password: "",
   };
+
+  const submitLoginFormHandler = useCallback((objValues: any) => {
+    instance.login(objValues);
+  }, []);
+
   const { username, password } = initialValues;
 
   return (
@@ -22,23 +23,32 @@ function LoginScreen({ onSubmitLoginFormHandler }: any) {
       <LoginForm
         username={username}
         password={password}
-        onSubmitLoginFormHandler={onSubmitLoginFormHandler}
+        onSubmitLoginFormHandler={submitLoginFormHandler}
       />
 
-      <TouchableOpacity onPress={() => console.log("aaa")}>
-        <Text>welcome page</Text>
-      </TouchableOpacity>
+      <View style={styles.wrapperAction}>
+        <TouchableOpacity
+          style={styles.navigationButton}
+          onPress={() => navigation.navigate("HomeScreen")}
+        >
+          <Text style={styles.navigationButtonText}>Home</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => console.log("aaa")}>
-        <Text>register page</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.navigationButton}
+          onPress={() => navigation.navigate("RegisterScreen")}
+        >
+          <Text style={styles.navigationButtonText}>Register</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  // phone title margintop: 40%
   title: {
-    marginTop: "40%",
+    marginTop: "10%",
     fontSize: 32,
     fontWeight: "700",
     textAlign: "center",
@@ -50,6 +60,25 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#003f5c",
     fontFamily: "Arial",
+  },
+  wrapperAction: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  navigationButton: {
+    backgroundColor: "#f35a5a",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 12,
+
+    marginTop: 32,
+    marginHorizontal: 32,
+  },
+  navigationButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
   },
 });
 

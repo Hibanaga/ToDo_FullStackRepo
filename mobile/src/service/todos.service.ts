@@ -1,26 +1,42 @@
-import instance from "./http";
-import { IToDo } from "../screens/ToDo/types/todos.type";
+import { IToDo, IQueryKeyProp } from "../types/todos.type";
+import axios from "axios";
+// import StorageService from "./storage.service";
 
-const getTodos = ({ queryKey }: any) => {
-  const { currentPage, limit } = queryKey[1];
-  return instance.gets(currentPage, limit);
-};
+class ToDoService {
+  instance: any;
 
-const removeTodo = async (_id: string) => {
-  return await instance.remove(_id);
-};
+  constructor() {
+    this.instance = axios.create({
+      baseURL: "http://192.168.0.21:5000/api/todos",
+    });
+  }
 
-const addToDo = async (data: IToDo) => {
-  return await instance.add(data);
-};
+  async gets({ queryKey }: IQueryKeyProp) {
+    return await this.instance
+      .get(
+        `/getAll?current=${queryKey[1].currentPage}&size=${queryKey[1].limit}`
+      )
+      .then((res: { data: { data: [IToDo] } }) => res.data.data);
+  }
 
-const getToDo = async ({ queryKey }: any) => {
-  const { _id } = queryKey[1];
-  return await instance.get(_id);
-};
+  get({ queryKey }: IQueryKeyProp) {
+    return this.instance
+      .get(`?_id=${queryKey[1]._id}`, { _id: queryKey[1]._id })
+      .then((res: { data: { data: IToDo } }) => res.data.data);
+  }
 
-const updateToDo = async (data: IToDo) => {
-  return await instance.update(data);
-};
+  add(data: IToDo) {
+    return this.instance.post("", data);
+  }
 
-export { getTodos, removeTodo, addToDo, getToDo, updateToDo };
+  update(data: IToDo) {
+    return this.instance.put("", data);
+  }
+
+  remove(_id: string) {
+    return this.instance.delete(`?_id=${_id}`);
+  }
+}
+
+const instance = new ToDoService();
+export default instance;

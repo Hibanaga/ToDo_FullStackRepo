@@ -3,48 +3,58 @@ import { Formik } from "formik";
 import {
   StyleSheet,
   TextInput,
-  View,
   TouchableOpacity,
+  View,
   Text,
 } from "react-native";
+import { IRegisterProp } from "../../../../types/user.type";
 
-export default function LoginForm({
-  username,
-  password,
-  onSubmitLoginFormHandler,
-}: any) {
+interface IStateProp {
+  onSubmitFormHandler: (prop: IRegisterProp) => void;
+}
+
+export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
   return (
     <Formik
       initialValues={{
-        username,
-        password,
+        avatar: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       }}
-      onSubmit={(values) => onSubmitLoginFormHandler(values)}
+      onSubmit={(values) => onSubmitFormHandler(values)}
     >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+      {({ handleChange, handleSubmit, values }) => (
         <View>
           <>
             <TextInput
+              value={values.avatar}
+              onChangeText={handleChange("avatar")}
               style={styles.textInput}
-              placeholder="Username"
-              onChangeText={handleChange("username")}
-              onBlur={handleBlur("username")}
-              value={values.username}
             />
-
             <TextInput
+              value={values.email}
+              onChangeText={handleChange("email")}
               style={styles.textInput}
-              placeholder="Password"
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              value={values.password}
-              secureTextEntry
             />
           </>
 
+          <TextInput
+            value={values.password}
+            onChangeText={handleChange("password")}
+            style={styles.textInput}
+            secureTextEntry
+          />
+          <TextInput
+            value={values.confirmPassword}
+            onChangeText={handleChange("confirmPassword")}
+            style={styles.textInput}
+            secureTextEntry
+          />
+
           <TouchableOpacity
-            onPress={() => handleSubmit()}
             style={styles.submit}
+            onPress={() => handleSubmit()}
           >
             <Text style={styles.submitText}>Submit</Text>
           </TouchableOpacity>

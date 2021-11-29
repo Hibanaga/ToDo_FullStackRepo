@@ -10,6 +10,7 @@ const todoSchema = Joi.object().keys({
 });
 
 const userSchema = Joi.object().keys({
+  username: Joi.string().min(3).max(15),
   email: Joi.string()
     .email({
       minDomainSegments: 2,
