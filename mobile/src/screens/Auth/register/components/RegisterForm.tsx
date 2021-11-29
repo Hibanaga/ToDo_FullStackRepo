@@ -8,6 +8,7 @@ import {
   Text,
 } from "react-native";
 import { IRegisterProp } from "../../../../types/user.type";
+import { RegisterValidateScheme } from "../../validation/validation.scheme";
 
 interface IStateProp {
   onSubmitFormHandler: (prop: IRegisterProp) => void;
@@ -22,31 +23,40 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
         password: "",
         confirmPassword: "",
       }}
+      validationSchema={RegisterValidateScheme}
       onSubmit={(values) => onSubmitFormHandler(values)}
     >
-      {({ handleChange, handleSubmit, values }) => (
+      {({ handleChange, handleSubmit, values, errors }) => (
         <View>
           <>
+            {errors.avatar && <Text> {errors.avatar} </Text>}
             <TextInput
               value={values.avatar}
+              placeholder="avatar"
               onChangeText={handleChange("avatar")}
               style={styles.textInput}
             />
+
+            {errors.email && <Text> {errors.email} </Text>}
             <TextInput
               value={values.email}
+              placeholder="email"
               onChangeText={handleChange("email")}
               style={styles.textInput}
             />
           </>
-
+          {errors.password && <Text>{errors.password}</Text>}
           <TextInput
             value={values.password}
+            placeholder="password"
             onChangeText={handleChange("password")}
             style={styles.textInput}
             secureTextEntry
           />
+          {errors.confirmPassword && <Text>{errors.confirmPassword}</Text>}
           <TextInput
             value={values.confirmPassword}
+            placeholder="confirm password"
             onChangeText={handleChange("confirmPassword")}
             style={styles.textInput}
             secureTextEntry

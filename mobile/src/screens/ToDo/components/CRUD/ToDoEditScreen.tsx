@@ -6,27 +6,26 @@ import { useQueryClient } from "react-query";
 import { IToDo, IRoute } from "../../../../types/todos.type";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import instance from "../../../../service/todos.service";
+import { getTokenInfo } from "../../hooks/useToken";
 
 const ToDoEditScreen = () => {
   const navigation = useNavigation();
   const route: IRoute = useRoute();
-
   const { _id } = route.params;
-
+  const { token, isExist } = getTokenInfo();
   const queryClient = useQueryClient();
   const { data, isSuccess } = useQuery(
-    ["todos", { _id }],
+    ["todos", { _id, token, isExist }],
     instance.get.bind(instance)
   );
 
-  console.log(data);
   const submitFormHandler = useCallback((obj: IToDo) => {
     delete obj["__v"];
-    instance
-      .update(obj)
-      .bind(instance)
-      .then(() => queryClient.invalidateQueries("todos"))
-      .then(() => navigation.goBack());
+    isExist &&
+      instance
+        .update(obj, token)
+        .then(() => queryClient.invalidateQueries("todos"))
+        .then(() => navigation.goBack());
   }, []);
   return (
     <View style={styles.container}>

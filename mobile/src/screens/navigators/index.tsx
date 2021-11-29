@@ -24,8 +24,8 @@ const AuthFlowNavigator: React.FunctionComponent = () => {
       <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
       <AuthStack.Screen name="ToDoScreen" component={ToDoContainer} />
 
-      <AuthStack.Screen name="HomeScreen" component={HomeScreen} />
       <AuthStack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <AuthStack.Screen name="HomeScreen" component={HomeScreen} />
       <AuthStack.Screen name="TodoAdd" component={ToDoCreateScreen} />
       <AuthStack.Screen name="ToDoEdit" component={ToDoEditScreen} />
     </AuthStack.Navigator>

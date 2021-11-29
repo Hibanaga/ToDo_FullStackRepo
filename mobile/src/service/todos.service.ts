@@ -1,40 +1,66 @@
 import { IToDo, IQueryKeyProp } from "../types/todos.type";
 import axios from "axios";
-// import StorageService from "./storage.service";
 
 class ToDoService {
   instance: any;
+  token: string | undefined;
 
   constructor() {
     this.instance = axios.create({
-      baseURL: "http://192.168.0.21:5000/api/todos",
+      baseURL: "http://localhost:5000/api/todos",
     });
   }
 
   async gets({ queryKey }: IQueryKeyProp) {
-    return await this.instance
-      .get(
-        `/getAll?current=${queryKey[1].currentPage}&size=${queryKey[1].limit}`
-      )
-      .then((res: { data: { data: [IToDo] } }) => res.data.data);
+    return (
+      queryKey[1].isExist &&
+      (await this.instance
+        .get(
+          `/getAll?current=${queryKey[1].currentPage}&size=${queryKey[1].limit}`,
+          {
+            headers: {
+              Authorization: `Bearer ${queryKey[1].token}`,
+            },
+          }
+        )
+        .then((res: { data: { data: [IToDo] } }) => res.data.data))
+    );
   }
 
-  get({ queryKey }: IQueryKeyProp) {
-    return this.instance
-      .get(`?_id=${queryKey[1]._id}`, { _id: queryKey[1]._id })
-      .then((res: { data: { data: IToDo } }) => res.data.data);
+  async get({ queryKey }: IQueryKeyProp) {
+    return (
+      queryKey[1].isExist &&
+      (await this.instance
+        .get(`?_id=${queryKey[1]._id}`, {
+          headers: {
+            Authorization: `Bearer ${queryKey[1].token}`,
+          },
+        })
+        .then((res: { data: { data: IToDo } }) => res.data.data))
+    );
   }
 
-  add(data: IToDo) {
+  async add(data: IToDo) {
     return this.instance.post("", data);
   }
 
-  update(data: IToDo) {
-    return this.instance.put("", data);
+  update(data: IToDo, token: string | null | undefined) {
+    return this.instance.put("", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: {
+        ...data,
+      },
+    });
   }
 
-  remove(_id: string) {
-    return this.instance.delete(`?_id=${_id}`);
+  async remove(_id: string, token: string | null | undefined) {
+    return await this.instance.delete(`?_id=${_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }
 

@@ -7,36 +7,37 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
+import { LoginValidateScheme } from "../../validation/validation.scheme";
 
 export default function LoginForm({
-  username,
+  email,
   password,
   onSubmitLoginFormHandler,
 }: any) {
   return (
     <Formik
       initialValues={{
-        username,
+        email,
         password,
       }}
+      validationSchema={LoginValidateScheme}
       onSubmit={(values) => onSubmitLoginFormHandler(values)}
     >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+      {({ handleChange, handleSubmit, values, errors, isValid }) => (
         <View>
           <>
+            {errors.email && <Text>{errors.email} </Text>}
             <TextInput
               style={styles.textInput}
-              placeholder="Username"
-              onChangeText={handleChange("username")}
-              onBlur={handleBlur("username")}
-              value={values.username}
+              placeholder="Username/email"
+              onChangeText={handleChange("email")}
+              value={values.email}
             />
-
+            {errors.password && <Text>{errors.password} </Text>}
             <TextInput
               style={styles.textInput}
               placeholder="Password"
               onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
               value={values.password}
               secureTextEntry
             />
@@ -45,6 +46,7 @@ export default function LoginForm({
           <TouchableOpacity
             onPress={() => handleSubmit()}
             style={styles.submit}
+            disabled={!isValid}
           >
             <Text style={styles.submitText}>Submit</Text>
           </TouchableOpacity>

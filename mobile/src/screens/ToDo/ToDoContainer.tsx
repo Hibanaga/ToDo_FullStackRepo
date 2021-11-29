@@ -5,13 +5,16 @@ import { useQuery, useQueryClient } from "react-query";
 import instance from "../../service/todos.service";
 import Pagination from "./components/actions/Pagination";
 import ToDoList from "./components/CRUD/ToDoList";
+import { getTokenInfo } from "./hooks/useToken";
 
 const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 4;
+  const { token, isExist } = getTokenInfo();
+
   const { data, isLoading, isSuccess, isError } = useQuery(
-    ["todos", { currentPage, limit }],
+    ["todos", { currentPage, limit, token, isExist }],
     instance.gets.bind(instance)
   );
 
@@ -20,9 +23,10 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   }, []);
 
   const deleteToDosHandler = useCallback((_id: string) => {
-    instance.remove(_id).then(() => {
-      queryClient.invalidateQueries("todos");
-    });
+    isExist &&
+      instance.remove(_id, token).then(() => {
+        queryClient.invalidateQueries("todos");
+      });
   }, []);
 
   const handleChangePrevPage = () => setCurrentPage(currentPage - 1);

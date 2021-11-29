@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { ILoginProp } from "../../../types/user.type";
 import LoginForm from "./components/LoginForm";
@@ -6,22 +6,30 @@ import instance from "../../../service/user.service";
 import { IToDoScreenProp } from "../../../types/navigation.type";
 
 const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
-  const initialValues: ILoginProp = {
-    username: "",
-    password: "",
+  const [messageError, setMessageError] = useState("");
+  const { email, password }: ILoginProp = {
+    email: "123@gmail.com",
+    password: "12345",
   };
 
   const submitLoginFormHandler = useCallback((objValues: any) => {
-    instance.login(objValues);
+    instance
+      .login(objValues)
+      .then((data) =>
+        typeof data === "string"
+          ? navigation.navigate("ToDoScreen")
+          : setMessageError(`${data.message}: ${data.title}`)
+      );
   }, []);
-
-  const { username, password } = initialValues;
 
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Login Form</Text>
+
+      {messageError !== "" && <Text>{messageError}</Text>}
+
       <LoginForm
-        username={username}
+        email={email}
         password={password}
         onSubmitLoginFormHandler={submitLoginFormHandler}
       />

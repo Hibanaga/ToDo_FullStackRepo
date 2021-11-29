@@ -12,17 +12,27 @@ class UserService extends StorageService {
       baseURL: "http://localhost:5000/api/user/",
     });
   }
-
-  login(data: ILoginProp) {
-    return this.instance
-      .post("login", data)
-      .then((data: any) => console.log(data));
+  // this._storeData(data.data.token)
+  async login(data: ILoginProp) {
+    return await this.instance.post("login", data).then((data: any) => {
+      if (data.data.token === undefined) {
+        return data.data;
+      } else {
+        this._storeData(data.data.token);
+        return data.data.token;
+      }
+    });
   }
 
   async register(data: IRegisterProp) {
-    return await this.instance
-      .post("register", data)
-      .then((data: any) => this._storeData(data.data.token));
+    return await this.instance.post("register", data).then((data: any) => {
+      if (data.data.token === undefined) {
+        return data.data;
+      } else {
+        this._storeData(data.data.token);
+        return data.data.token;
+      }
+    });
   }
 }
 

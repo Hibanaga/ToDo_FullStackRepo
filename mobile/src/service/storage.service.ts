@@ -7,13 +7,14 @@ class StorageService {
     try {
       return await AsyncStorage.setItem("storage", String(data));
     } catch (error) {
-      console.log(error);
+      throw new Error("error to store");
     }
   };
 
   _recieveData = async () => {
     try {
-      return await AsyncStorage.getItem("storage");
+      const jsonValue = await AsyncStorage.getItem("storage");
+      return jsonValue !== undefined ? Promise.resolve(jsonValue) : undefined;
     } catch (error) {
       throw new Error("error failed");
     }

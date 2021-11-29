@@ -1,5 +1,5 @@
 interface ILoginProp {
-  username: string;
+  email: string;
   password: string;
 }
 

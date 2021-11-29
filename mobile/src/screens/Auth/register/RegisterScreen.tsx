@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import RegisterForm from "./components/RegisterForm";
 import { IRegisterProp } from "../../../types/user.type";
@@ -6,14 +6,25 @@ import instance from "../../../service/user.service";
 import { IToDoScreenProp } from "../../../types/navigation.type";
 
 const RegisterScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
+  const [messageError, setMessageError] = useState("");
+
   const submitFormHandler = useCallback((prop: IRegisterProp) => {
     delete prop["confirmPassword"];
-    instance.register(prop);
+    instance
+      .register(prop)
+      .then((data) =>
+        typeof data === "string"
+          ? navigation.navigate("ToDoScreen")
+          : setMessageError(`${data.message}: ${data.title}`)
+      );
   }, []);
 
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Register Form</Text>
+
+      {messageError !== "" && <Text>{messageError}</Text>}
+
       <RegisterForm onSubmitFormHandler={submitFormHandler} />
 
       <View style={styles.wrapperAction}>
