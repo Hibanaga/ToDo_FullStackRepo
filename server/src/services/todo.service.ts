@@ -2,11 +2,19 @@ import { ITodo } from "../models/ToDo";
 import Todo from "../models/ToDo";
 
 export default class TodoService {
-  async recieveAll(current: number, size: number) {
+  async recieveAll(
+    current: number,
+    size: number,
+    options: { isComplete?: boolean; isPublic?: boolean }
+  ) {
     const currentPage = current || 1;
     const pageSize = size || 5;
     const skipElements = (currentPage - 1) * pageSize;
-    return await Todo.find().skip(skipElements).limit(pageSize);
+    return await Todo.find({
+      isCompleted: true,
+    })
+      .skip(skipElements)
+      .limit(pageSize);
   }
 
   async findOne(_id: string) {
