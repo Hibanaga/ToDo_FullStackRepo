@@ -21,10 +21,9 @@ const AuthStack = createStackNavigator<AuthStackParamList>();
 const AuthFlowNavigator: React.FunctionComponent = () => {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
       <AuthStack.Screen name="ToDoScreen" component={ToDoContainer} />
-
       <AuthStack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
       <AuthStack.Screen name="HomeScreen" component={HomeScreen} />
       <AuthStack.Screen name="TodoAdd" component={ToDoCreateScreen} />
       <AuthStack.Screen name="ToDoEdit" component={ToDoEditScreen} />

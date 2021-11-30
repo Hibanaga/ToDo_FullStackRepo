@@ -19,6 +19,12 @@ const RegisterScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
       );
   }, []);
 
+  const navigationHandler = (event: any) => {
+    return event.currentTarget.textContent === "Home"
+      ? navigation.navigate("HomeScreen")
+      : navigation.navigate("LoginScreen");
+  };
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Register Form</Text>
@@ -30,14 +36,14 @@ const RegisterScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
       <View style={styles.wrapperAction}>
         <TouchableOpacity
           style={styles.navigationButton}
-          onPress={() => navigation.navigate("HomeScreen")}
+          onPress={navigationHandler}
         >
           <Text style={styles.navigationButtonText}>Home</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.navigationButton}
-          onPress={() => navigation.navigate("RegisterScreen")}
+          onPress={navigationHandler}
         >
           <Text style={styles.navigationButtonText}>Register</Text>
         </TouchableOpacity>
@@ -47,7 +53,6 @@ const RegisterScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  // phone title margintop: 40%
   title: {
     marginTop: "10%",
     fontSize: 32,

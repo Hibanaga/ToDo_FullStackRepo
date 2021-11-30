@@ -6,13 +6,15 @@ import instance from "../../../../service/todos.service";
 import { useQueryClient } from "react-query";
 import { initialState } from "../../constants/info.constants";
 import { useNavigation } from "@react-navigation/native";
+import { getTokenInfo } from "../../utils/useToken";
 
 const ToDoCreateScreen = () => {
   const navigation = useNavigation();
   const queryClient = useQueryClient();
+  const { token } = getTokenInfo();
   const submitFormHandler = useCallback((obj: IToDo) => {
-    instance
-      .add(obj)
+    return instance
+      .add(obj, token)
       .then(() => queryClient.invalidateQueries("todos"))
       .then(() => navigation.goBack());
   }, []);

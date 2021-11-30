@@ -1,16 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { ILoginProp } from "../../../types/user.type";
 import LoginForm from "./components/LoginForm";
 import instance from "../../../service/user.service";
 import { IToDoScreenProp } from "../../../types/navigation.type";
 
 const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const [messageError, setMessageError] = useState("");
-  const { email, password }: ILoginProp = {
-    email: "123@gmail.com",
-    password: "12345",
-  };
 
   const submitLoginFormHandler = useCallback((objValues: any) => {
     instance
@@ -28,11 +23,7 @@ const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
 
       {messageError !== "" && <Text>{messageError}</Text>}
 
-      <LoginForm
-        email={email}
-        password={password}
-        onSubmitLoginFormHandler={submitLoginFormHandler}
-      />
+      <LoginForm onSubmitLoginFormHandler={submitLoginFormHandler} />
 
       <View style={styles.wrapperAction}>
         <TouchableOpacity

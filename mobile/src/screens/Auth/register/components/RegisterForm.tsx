@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { IRegisterProp } from "../../../../types/user.type";
 import { RegisterValidateScheme } from "../../validation/validation.scheme";
+import { initialStateRegister } from "../../constants/info.contstants";
 
 interface IStateProp {
   onSubmitFormHandler: (prop: IRegisterProp) => void;
@@ -17,14 +18,9 @@ interface IStateProp {
 export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
   return (
     <Formik
-      initialValues={{
-        avatar: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      }}
+      initialValues={initialStateRegister}
       validationSchema={RegisterValidateScheme}
-      onSubmit={(values) => onSubmitFormHandler(values)}
+      onSubmit={onSubmitFormHandler}
     >
       {({ handleChange, handleSubmit, values, errors }) => (
         <View>
@@ -62,10 +58,7 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
             secureTextEntry
           />
 
-          <TouchableOpacity
-            style={styles.submit}
-            onPress={() => handleSubmit()}
-          >
+          <TouchableOpacity style={styles.submit} onPress={handleSubmit as any}>
             <Text style={styles.submitText}>Submit</Text>
           </TouchableOpacity>
         </View>

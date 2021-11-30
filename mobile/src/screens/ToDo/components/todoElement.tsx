@@ -10,9 +10,18 @@ const TodoElement = ({
   year,
   isComplete,
   isPublic,
+  token,
   onDeleteToDosHandler,
   onEditToDosHandler,
 }: IToDoElement) => {
+  const editToDosHandler = () => {
+    onEditToDosHandler(_id);
+  };
+
+  const deleteToDosHandler = () => {
+    onDeleteToDosHandler(_id, token);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.containerInfo}>
@@ -39,14 +48,14 @@ const TodoElement = ({
       <View style={styles.containerActions}>
         <TouchableOpacity
           style={styles.buttonAction}
-          onPress={() => onEditToDosHandler(_id)}
+          onPress={editToDosHandler}
         >
           <Text style={styles.buttonActionText}>edit</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.buttonAction}
-          onPress={() => onDeleteToDosHandler(_id)}
+          onPress={deleteToDosHandler}
         >
           <Text style={styles.buttonActionText}>delete</Text>
         </TouchableOpacity>

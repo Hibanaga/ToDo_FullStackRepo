@@ -1,9 +1,8 @@
-import { IToDo, IQueryKeyProp } from "../types/todos.type";
+import { IToDo } from "../types/todos.type";
 import axios from "axios";
 
 class ToDoService {
   instance: any;
-  token: string | undefined;
 
   constructor() {
     this.instance = axios.create({
@@ -11,55 +10,54 @@ class ToDoService {
     });
   }
 
-  async gets({ queryKey }: IQueryKeyProp) {
+  async gets({ queryKey }: any) {
     return (
       queryKey[1].isExist &&
-      (await this.instance
-        .get(
-          `/getAll?current=${queryKey[1].currentPage}&size=${queryKey[1].limit}`,
-          {
-            headers: {
-              Authorization: `Bearer ${queryKey[1].token}`,
-            },
-          }
-        )
-        .then((res: { data: { data: [IToDo] } }) => res.data.data))
+      (await this.instance({
+        method: "get",
+        url: "/getAll",
+        params: { current: queryKey[1].currentPage, size: queryKey[1].limit },
+        headers: { Authorization: `Bearer ${queryKey[1].token}` },
+      }).then((res: { data: { data: [IToDo] } }) => res.data.data))
     );
   }
 
-  async get({ queryKey }: IQueryKeyProp) {
+  async get({ queryKey }: any) {
     return (
       queryKey[1].isExist &&
-      (await this.instance
-        .get(`?_id=${queryKey[1]._id}`, {
-          headers: {
-            Authorization: `Bearer ${queryKey[1].token}`,
-          },
-        })
-        .then((res: { data: { data: IToDo } }) => res.data.data))
+      this.instance({
+        method: "get",
+        params: { _id: queryKey[1]._id },
+        headers: { Authorization: `Bearer ${queryKey[1].token}` },
+      }).then((res: { data: { data: IToDo } }) => res.data.data)
     );
   }
 
-  async add(data: IToDo) {
-    return this.instance.post("", data);
+  async add(data: IToDo, token: string | null | undefined) {
+    return await this.instance({
+      method: "post",
+      data: {
+        ...data,
+      },
+      headers: { Authorization: `Bearer ${token}` },
+    });
   }
 
   update(data: IToDo, token: string | null | undefined) {
-    return this.instance.put("", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: {
+    return this.instance({
+      method: "put",
+      data: {
         ...data,
       },
+      headers: { Authorization: `Bearer ${token}` },
     });
   }
 
   async remove(_id: string, token: string | null | undefined) {
-    return await this.instance.delete(`?_id=${_id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    return await this.instance({
+      method: "delete",
+      params: { _id },
+      headers: { Authorization: `Bearer ${token}` },
     });
   }
 }

@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "react-query";
 import instance from "../../service/todos.service";
 import Pagination from "./components/actions/Pagination";
 import ToDoList from "./components/CRUD/ToDoList";
-import { getTokenInfo } from "./hooks/useToken";
+import { getTokenInfo } from "./utils/useToken";
 
 const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const queryClient = useQueryClient();
@@ -22,21 +22,22 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
     navigation.navigate("ToDoEdit", { _id });
   }, []);
 
-  const deleteToDosHandler = useCallback((_id: string) => {
-    isExist &&
-      instance.remove(_id, token).then(() => {
-        queryClient.invalidateQueries("todos");
-      });
-  }, []);
+  const deleteToDosHandler = useCallback(
+    (_id: string, tokenDelete: string | null | undefined) => {
+      return instance
+        .remove(_id, tokenDelete)
+        .then(() => queryClient.invalidateQueries("todos"));
+    },
+    []
+  );
 
-  const handleChangePrevPage = () => setCurrentPage(currentPage - 1);
-  const handleChangeNextPage = () => setCurrentPage(currentPage + 1);
+  const navigationHadler = () => {
+    return navigation.navigate("TodoAdd");
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.routeCreate}
-        onPress={() => navigation.navigate("TodoAdd")}
-      >
+      <TouchableOpacity style={styles.routeCreate} onPress={navigationHadler}>
         <Text>Create new Todo</Text>
       </TouchableOpacity>
 
@@ -47,6 +48,7 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
       {isSuccess && (
         <ToDoList
           data={data}
+          token={token}
           onDeleteToDosHandler={deleteToDosHandler}
           onEditToDosHandler={editToDosHandler}
         />
@@ -58,8 +60,7 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
           isSuccess={isSuccess}
           limit={limit}
           length={data.length}
-          onChangeNextPage={handleChangeNextPage}
-          onChangePrevPage={handleChangePrevPage}
+          setCurrentPage={setCurrentPage}
         />
       )}
     </View>

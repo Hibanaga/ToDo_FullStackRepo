@@ -71,7 +71,7 @@ const FormTodo = ({ onSubmitFormHandler, state, option }: IStateProp) => {
 
           <TouchableOpacity
             style={styles.buttonSubmit}
-            onPress={() => handleSubmit()}
+            onPress={handleSubmit as any}
             disabled={!isValid}
           >
             <Text style={styles.buttonText}>

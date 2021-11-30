@@ -7,21 +7,20 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
+import { ILoginProp } from "../../../../types/user.type";
 import { LoginValidateScheme } from "../../validation/validation.scheme";
+import { initialStateLogin } from "../../constants/info.contstants";
 
-export default function LoginForm({
-  email,
-  password,
-  onSubmitLoginFormHandler,
-}: any) {
+interface IStateProp {
+  onSubmitLoginFormHandler: (p: ILoginProp) => void;
+}
+
+export default function LoginForm({ onSubmitLoginFormHandler }: IStateProp) {
   return (
     <Formik
-      initialValues={{
-        email,
-        password,
-      }}
+      initialValues={initialStateLogin}
       validationSchema={LoginValidateScheme}
-      onSubmit={(values) => onSubmitLoginFormHandler(values)}
+      onSubmit={onSubmitLoginFormHandler}
     >
       {({ handleChange, handleSubmit, values, errors, isValid }) => (
         <View>
@@ -44,7 +43,7 @@ export default function LoginForm({
           </>
 
           <TouchableOpacity
-            onPress={() => handleSubmit()}
+            onPress={handleSubmit as any}
             style={styles.submit}
             disabled={!isValid}
           >

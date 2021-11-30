@@ -15,6 +15,13 @@ interface IToDoMap {
   isPublic: boolean;
   isComplete: boolean;
   _id: string;
+  _v: number;
+}
+
+interface IRenderProp {
+  item: IToDoMap;
+  index: number;
+  separators: {};
 }
 
 interface IToDoElement {
@@ -24,9 +31,11 @@ interface IToDoElement {
   year: number;
   isPublic: boolean;
   isComplete: boolean;
+  _v?: number;
+  token: string | null | undefined;
 
   onEditToDosHandler: (_id: string) => void;
-  onDeleteToDosHandler: (_id: string) => void;
+  onDeleteToDosHandler: (_id: string, token: string | null | undefined) => void;
 }
 
 interface IRoute {
@@ -42,4 +51,4 @@ interface IQueryKeyProp {
   queryKey: any;
 }
 
-export { IToDo, IToDoElement, IRoute, IToDoMap, IQueryKeyProp };
+export { IToDo, IToDoElement, IRoute, IToDoMap, IRenderProp, IQueryKeyProp };

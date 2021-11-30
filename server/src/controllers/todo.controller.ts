@@ -65,6 +65,7 @@ export class TodoController {
 
   async deleteToDo(_: Request, res: Response) {
     const { _id } = _.query;
+
     try {
       //check exist of item id DB with current id
       const isExists = await this.todoService.exist(String(_id), "_id");

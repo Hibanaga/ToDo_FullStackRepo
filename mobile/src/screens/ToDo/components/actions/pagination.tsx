@@ -6,32 +6,36 @@ interface IStateProp {
   isSuccess: boolean;
   limit: number;
   length: number;
-  onChangePrevPage: () => void;
-  onChangeNextPage: () => void;
+  setCurrentPage: (prop: number) => void;
 }
 
 const Pagination = ({
   currentPage,
-  isSuccess,
   limit,
   length,
-  onChangePrevPage,
-  onChangeNextPage,
+  setCurrentPage,
 }: IStateProp) => {
+  const handleChangePrevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+  const handleChangeNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
   return (
     <>
       <TouchableOpacity
         style={styles.prevBtnAction}
         disabled={currentPage <= 1}
-        onPress={() => onChangePrevPage()}
+        onPress={handleChangePrevPage}
       >
         <Text style={styles.btnActionText}>prev</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.nextBtnAction}
-        disabled={isSuccess && length < limit}
-        onPress={() => onChangeNextPage()}
+        disabled={length < limit}
+        onPress={handleChangeNextPage as any}
       >
         <Text style={styles.btnActionText}>next</Text>
       </TouchableOpacity>

@@ -6,7 +6,7 @@ import { useQueryClient } from "react-query";
 import { IToDo, IRoute } from "../../../../types/todos.type";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import instance from "../../../../service/todos.service";
-import { getTokenInfo } from "../../hooks/useToken";
+import { getTokenInfo } from "../../utils/useToken";
 
 const ToDoEditScreen = () => {
   const navigation = useNavigation();

@@ -18,14 +18,15 @@ export default function FormCheckboxElement({
   error,
   onSetFieldValue,
 }: IStateProp) {
+  const toggleCheckBoxHandler = () => {
+    onSetFieldValue(propName, !value);
+  };
+
   return (
     <View style={styles.checkboxContainer}>
       <Text style={styles.subTitle}>{title}</Text>
       <ErrorNotification errorMessage={error} />
-      <CheckBox
-        value={value}
-        onChange={() => onSetFieldValue(propName, !value)}
-      />
+      <CheckBox value={value} onChange={toggleCheckBoxHandler} />
     </View>
   );
 }
