@@ -6,15 +6,31 @@ import instance from "../../service/todos.service";
 import Pagination from "./components/actions/Pagination";
 import ToDoList from "./components/CRUD/ToDoList";
 import { getTokenInfo } from "./utils/useToken";
+import Preloader from "./components/actions/Preloader";
+import DropDownPicker from "react-native-dropdown-picker";
+import { getValuesFromConverterPicker } from "./utils/convertedPicker";
+import { pickerArr } from "./constants/info.constants";
 
 const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 4;
   const { token, isExist } = getTokenInfo();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState([]);
+  const [items, setItems] = useState(pickerArr);
 
   const { data, isLoading, isSuccess, isError } = useQuery(
-    ["todos", { currentPage, limit, token, isExist }],
+    [
+      "todos",
+      {
+        currentPage,
+        limit,
+        token,
+        isExist,
+        options: getValuesFromConverterPicker(value),
+      },
+    ],
     instance.gets.bind(instance)
   );
 
@@ -37,13 +53,29 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.routeCreate} onPress={navigationHadler}>
-        <Text>Create new Todo</Text>
-      </TouchableOpacity>
+      {isSuccess && (
+        <TouchableOpacity style={styles.routeCreate} onPress={navigationHadler}>
+          <Text>Create new Todo</Text>
+        </TouchableOpacity>
+      )}
+
+      {isSuccess && (
+        <DropDownPicker
+          multiple={true}
+          categorySelectable={false}
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          style={styles.dropDownPicker}
+        />
+      )}
 
       {isError && <Text>Error...</Text>}
 
-      {isLoading && <Text>Loading...</Text>}
+      {isLoading && <Preloader />}
 
       {isSuccess && !isError && data.length === 0 && (
         <Text>This page is already empty...</Text>
@@ -81,7 +113,9 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
   },
-
+  dropDownPicker: {
+    marginTop: 16,
+  },
   routeCreate: {
     borderColor: "#333",
     borderWidth: 1,

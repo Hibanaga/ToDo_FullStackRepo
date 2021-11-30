@@ -7,13 +7,13 @@ import instance from "../../service/user.service";
 const HomeScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const { token, isExist } = getTokenInfo();
 
-  // useEffect(() => {
-  //   instance
-  //     .auth(token, isExist)
-  //     .then(
-  //       (status: number) => status === 200 && navigation.navigate("ToDoScreen")
-  //     );
-  // }, [token]);
+  useEffect(() => {
+    instance
+      .auth(token, isExist)
+      .then(
+        (status: number) => status === 200 && navigation.navigate("ToDoScreen")
+      );
+  }, [token]);
 
   const navigationLoginHandler = () => {
     return navigation.navigate("LoginScreen");

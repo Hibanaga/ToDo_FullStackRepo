@@ -16,7 +16,11 @@ class ToDoService {
       (await this.instance({
         method: "get",
         url: "/getAll",
-        params: { current: queryKey[1].currentPage, size: queryKey[1].limit },
+        params: {
+          current: queryKey[1].currentPage,
+          size: queryKey[1].limit,
+          options: queryKey[1].options,
+        },
         headers: { Authorization: `Bearer ${queryKey[1].token}` },
       }).then((res: { data: { data: [IToDo] } }) => res.data.data))
     );
