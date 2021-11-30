@@ -31,7 +31,6 @@ const Pagination = ({
       >
         <Text style={styles.btnActionText}>prev</Text>
       </TouchableOpacity>
-
       <TouchableOpacity
         style={
           length < limit

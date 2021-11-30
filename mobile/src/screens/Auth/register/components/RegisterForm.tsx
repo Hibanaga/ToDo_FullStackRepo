@@ -33,7 +33,6 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
               onChangeText={handleChange("avatar")}
               style={styles.textInput}
             />
-
             <ErrorNotifications message={errors.email} />
             <TextInput
               value={values.email}
@@ -42,7 +41,6 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
               style={styles.textInput}
             />
           </>
-
           <ErrorNotifications message={errors.password} />
           <TextInput
             value={values.password}
@@ -51,7 +49,6 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
             style={styles.textInput}
             secureTextEntry
           />
-
           <ErrorNotifications message={errors.confirmPassword} />
           <TextInput
             value={values.confirmPassword}
@@ -60,7 +57,6 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
             style={styles.textInput}
             secureTextEntry
           />
-
           <TouchableOpacity style={styles.submit} onPress={handleSubmit as any}>
             <Text style={styles.submitText}>Submit</Text>
           </TouchableOpacity>

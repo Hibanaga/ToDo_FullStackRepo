@@ -22,10 +22,8 @@ const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Login Form</Text>
-
       <ErrorNotifications message={messageError} />
       <LoginForm onSubmitLoginFormHandler={submitLoginFormHandler} />
-
       <View style={styles.wrapperAction}>
         <TouchableOpacity
           style={styles.navigationButton}
@@ -33,7 +31,6 @@ const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
         >
           <Text style={styles.navigationButtonText}>Home</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={styles.navigationButton}
           onPress={navigationRegisterHandler}

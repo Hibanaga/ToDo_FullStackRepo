@@ -27,7 +27,6 @@ const HomeScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
     <>
       <View style={styles.wrapper}>
         <Text style={styles.title}>todoAPP</Text>
-
         <View>
           <TouchableOpacity
             style={styles.linkItem}
@@ -35,7 +34,6 @@ const HomeScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
           >
             <Text style={styles.linkItemText}>Register</Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.linkItem}
             onPress={navigationLoginHandler}

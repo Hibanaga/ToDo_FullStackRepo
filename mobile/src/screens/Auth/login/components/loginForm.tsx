@@ -33,7 +33,6 @@ export default function LoginForm({ onSubmitLoginFormHandler }: IStateProp) {
               onChangeText={handleChange("email")}
               value={values.email}
             />
-
             <ErrorNotifications message={errors.password} />
             <TextInput
               style={styles.textInput}
@@ -43,7 +42,6 @@ export default function LoginForm({ onSubmitLoginFormHandler }: IStateProp) {
               secureTextEntry
             />
           </>
-
           <TouchableOpacity
             onPress={handleSubmit as any}
             style={styles.submit}
