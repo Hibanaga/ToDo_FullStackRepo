@@ -6,7 +6,7 @@ class ToDoService {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: "http://localhost:5000/api/todos",
+      baseURL: "http://192.168.0.21:5000/api/todos",
     });
   }
 

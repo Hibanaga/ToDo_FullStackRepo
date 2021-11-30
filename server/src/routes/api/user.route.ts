@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { userSchema } from "../../Validation/SchemeValidation";
 import userController from "../../controllers/user.controller";
 import validateReq from "../../middleware/validator.middleware";
+const passport = require("passport");
 
 const router: Router = Router();
 
@@ -17,6 +18,12 @@ router.post(
   "/login",
   validateReq(userSchema),
   userController.login.bind(userController)
+);
+
+router.get(
+  "/auth",
+  passport.authenticate("jwt", { session: false }),
+  userController.auth.bind(userController)
 );
 
 export default router;

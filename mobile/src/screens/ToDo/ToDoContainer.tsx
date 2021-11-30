@@ -45,7 +45,11 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
 
       {isLoading && <Text>Loading...</Text>}
 
-      {isSuccess && (
+      {isSuccess && !isError && data.length === 0 && (
+        <Text>This page is already empty...</Text>
+      )}
+
+      {isSuccess === true && (
         <ToDoList
           data={data}
           token={token}
@@ -73,8 +77,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     height: "100%",
-    width: 320,
-    marginHorizontal: "auto",
+    width: 340,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 
   routeCreate: {

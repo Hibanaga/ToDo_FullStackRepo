@@ -53,21 +53,23 @@ const FormTodo = ({ onSubmitFormHandler, state, option }: IStateProp) => {
             onHandleChange={handleChange}
           />
 
-          <FormCheckboxElement
-            title={"Public"}
-            value={values.isPublic}
-            error={errors.isPublic}
-            propName={"isPublic"}
-            onSetFieldValue={setFieldValue}
-          />
+          <View style={styles.wrapperCheckbox}>
+            <FormCheckboxElement
+              title={"Public"}
+              value={values.isPublic}
+              error={errors.isPublic}
+              propName={"isPublic"}
+              onSetFieldValue={setFieldValue}
+            />
 
-          <FormCheckboxElement
-            title={"Completed"}
-            value={values.isComplete}
-            error={errors.isComplete}
-            propName={"isComplete"}
-            onSetFieldValue={setFieldValue}
-          />
+            <FormCheckboxElement
+              title={"Completed"}
+              value={values.isComplete}
+              error={errors.isComplete}
+              propName={"isComplete"}
+              onSetFieldValue={setFieldValue}
+            />
+          </View>
 
           <TouchableOpacity
             style={styles.buttonSubmit}
@@ -87,6 +89,9 @@ const FormTodo = ({ onSubmitFormHandler, state, option }: IStateProp) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 16,
+  },
+  wrapperCheckbox: {
+    marginTop: 32,
   },
   buttonSubmit: {
     borderWidth: 1,

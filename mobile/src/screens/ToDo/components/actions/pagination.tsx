@@ -33,7 +33,11 @@ const Pagination = ({
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.nextBtnAction}
+        style={
+          length < limit
+            ? { ...styles.nextBtnAction, ...styles.blockedBtnPagination }
+            : styles.nextBtnAction
+        }
         disabled={length < limit}
         onPress={handleChangeNextPage as any}
       >
@@ -73,7 +77,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
+  blockedBtnPagination: {
+    backgroundColor: "#a5a5a58b",
+  },
   btnActionText: {
     fontSize: 32,
   },

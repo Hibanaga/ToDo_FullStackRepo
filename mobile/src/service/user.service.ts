@@ -1,7 +1,6 @@
 import axios from "axios";
 import { ILoginProp, IRegisterProp } from "../types/user.type";
 import StorageService from "./storage.service";
-// http://192.168.0.21:5000/api/user/
 
 class UserService extends StorageService {
   instance: any;
@@ -9,12 +8,15 @@ class UserService extends StorageService {
   constructor() {
     super();
     this.instance = axios.create({
-      baseURL: "http://localhost:5000/api/user/",
+      baseURL: "http://192.168.0.21:5000/api/user/",
     });
   }
-  // this._storeData(data.data.token)
   async login(data: ILoginProp) {
-    return await this.instance.post("login", data).then((data: any) => {
+    return await this.instance({
+      method: "post",
+      url: "login",
+      data: { ...data },
+    }).then((data: any) => {
       if (data.data.token === undefined) {
         return data.data;
       } else {
@@ -25,7 +27,11 @@ class UserService extends StorageService {
   }
 
   async register(data: IRegisterProp) {
-    return await this.instance.post("register", data).then((data: any) => {
+    return await this.instance({
+      method: "post",
+      url: "register",
+      data: { ...data },
+    }).then((data: any) => {
       if (data.data.token === undefined) {
         return data.data;
       } else {
@@ -33,6 +39,21 @@ class UserService extends StorageService {
         return data.data.token;
       }
     });
+  }
+
+  async auth(token: string | null | undefined, isExist: boolean) {
+    try {
+      return (
+        isExist &&
+        (await this.instance({
+          method: "get",
+          url: "auth",
+          headers: { Authorization: `Bearer ${token}` },
+        }).then((data: any) => data.status))
+      );
+    } catch (error) {
+      return 401;
+    }
   }
 }
 

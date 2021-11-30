@@ -29,13 +29,16 @@ const ToDoCreateScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: 340,
+    marginLeft: "auto",
+    marginRight: "auto",
     height: "92%",
     marginTop: "auto",
   },
   title: {
     fontSize: 40,
     fontWeight: "700",
+    textAlign: "center",
   },
 });
 

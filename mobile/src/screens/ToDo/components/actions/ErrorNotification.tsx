@@ -8,7 +8,9 @@ interface IStateProp {
 const ErrorNotification = ({ errorMessage }: IStateProp) => {
   return (
     <View>
-      {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+      {errorMessage !== undefined && errorMessage !== "" ? (
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      ) : null}
     </View>
   );
 };

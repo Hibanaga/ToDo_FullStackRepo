@@ -3,39 +3,40 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import LoginForm from "./components/LoginForm";
 import instance from "../../../service/user.service";
 import { IToDoScreenProp } from "../../../types/navigation.type";
+import ErrorNotifications from "../components/ErrorNotifications";
 
 const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const [messageError, setMessageError] = useState("");
 
   const submitLoginFormHandler = useCallback((objValues: any) => {
-    instance
-      .login(objValues)
-      .then((data) =>
-        typeof data === "string"
-          ? navigation.navigate("ToDoScreen")
-          : setMessageError(`${data.message}: ${data.title}`)
-      );
+    instance.login(objValues).then((data) => {
+      return typeof data === "string"
+        ? navigation.navigate("ToDoScreen")
+        : setMessageError(`${data.message}: ${data.title}`);
+    });
   }, []);
+
+  const navigationHomeHandler = () => navigation.navigate("HomeScreen");
+  const navigationRegisterHandler = () => navigation.navigate("RegisterScreen");
 
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Login Form</Text>
 
-      {messageError !== "" && <Text>{messageError}</Text>}
-
+      <ErrorNotifications message={messageError} />
       <LoginForm onSubmitLoginFormHandler={submitLoginFormHandler} />
 
       <View style={styles.wrapperAction}>
         <TouchableOpacity
           style={styles.navigationButton}
-          onPress={() => navigation.navigate("HomeScreen")}
+          onPress={navigationHomeHandler}
         >
           <Text style={styles.navigationButtonText}>Home</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.navigationButton}
-          onPress={() => navigation.navigate("RegisterScreen")}
+          onPress={navigationRegisterHandler}
         >
           <Text style={styles.navigationButtonText}>Register</Text>
         </TouchableOpacity>

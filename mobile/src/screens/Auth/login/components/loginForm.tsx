@@ -10,6 +10,7 @@ import {
 import { ILoginProp } from "../../../../types/user.type";
 import { LoginValidateScheme } from "../../validation/validation.scheme";
 import { initialStateLogin } from "../../constants/info.contstants";
+import ErrorNotifications from "../../components/ErrorNotifications";
 
 interface IStateProp {
   onSubmitLoginFormHandler: (p: ILoginProp) => void;
@@ -25,14 +26,15 @@ export default function LoginForm({ onSubmitLoginFormHandler }: IStateProp) {
       {({ handleChange, handleSubmit, values, errors, isValid }) => (
         <View>
           <>
-            {errors.email && <Text>{errors.email} </Text>}
+            <ErrorNotifications message={errors.email} />
             <TextInput
               style={styles.textInput}
               placeholder="Username/email"
               onChangeText={handleChange("email")}
               value={values.email}
             />
-            {errors.password && <Text>{errors.password} </Text>}
+
+            <ErrorNotifications message={errors.password} />
             <TextInput
               style={styles.textInput}
               placeholder="Password"

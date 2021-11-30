@@ -10,6 +10,7 @@ import {
 import { IRegisterProp } from "../../../../types/user.type";
 import { RegisterValidateScheme } from "../../validation/validation.scheme";
 import { initialStateRegister } from "../../constants/info.contstants";
+import ErrorNotifications from "../../components/ErrorNotifications";
 
 interface IStateProp {
   onSubmitFormHandler: (prop: IRegisterProp) => void;
@@ -25,7 +26,7 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
       {({ handleChange, handleSubmit, values, errors }) => (
         <View>
           <>
-            {errors.avatar && <Text> {errors.avatar} </Text>}
+            <ErrorNotifications message={errors.avatar} />
             <TextInput
               value={values.avatar}
               placeholder="avatar"
@@ -33,7 +34,7 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
               style={styles.textInput}
             />
 
-            {errors.email && <Text> {errors.email} </Text>}
+            <ErrorNotifications message={errors.email} />
             <TextInput
               value={values.email}
               placeholder="email"
@@ -41,7 +42,8 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
               style={styles.textInput}
             />
           </>
-          {errors.password && <Text>{errors.password}</Text>}
+
+          <ErrorNotifications message={errors.password} />
           <TextInput
             value={values.password}
             placeholder="password"
@@ -49,7 +51,8 @@ export default function RegisterForm({ onSubmitFormHandler }: IStateProp) {
             style={styles.textInput}
             secureTextEntry
           />
-          {errors.confirmPassword && <Text>{errors.confirmPassword}</Text>}
+
+          <ErrorNotifications message={errors.confirmPassword} />
           <TextInput
             value={values.confirmPassword}
             placeholder="confirm password"

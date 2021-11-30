@@ -4,6 +4,7 @@ import RegisterForm from "./components/RegisterForm";
 import { IRegisterProp } from "../../../types/user.type";
 import instance from "../../../service/user.service";
 import { IToDoScreenProp } from "../../../types/navigation.type";
+import ErrorNotifications from "../components/ErrorNotifications";
 
 const RegisterScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const [messageError, setMessageError] = useState("");
@@ -19,33 +20,29 @@ const RegisterScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
       );
   }, []);
 
-  const navigationHandler = (event: any) => {
-    return event.currentTarget.textContent === "Home"
-      ? navigation.navigate("HomeScreen")
-      : navigation.navigate("LoginScreen");
-  };
+  const navigationHomeHandler = () => navigation.navigate("HomeScreen");
+  const navigationLoginHandler = () => navigation.navigate("LoginScreen");
 
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Register Form</Text>
 
-      {messageError !== "" && <Text>{messageError}</Text>}
-
+      <ErrorNotifications message={messageError} />
       <RegisterForm onSubmitFormHandler={submitFormHandler} />
 
       <View style={styles.wrapperAction}>
         <TouchableOpacity
           style={styles.navigationButton}
-          onPress={navigationHandler}
+          onPress={navigationHomeHandler}
         >
           <Text style={styles.navigationButtonText}>Home</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.navigationButton}
-          onPress={navigationHandler}
+          onPress={navigationLoginHandler}
         >
-          <Text style={styles.navigationButtonText}>Register</Text>
+          <Text style={styles.navigationButtonText}>Login</Text>
         </TouchableOpacity>
       </View>
     </View>
