@@ -19,7 +19,7 @@ const initialState = {
 
 const pickerArr = [
   { label: "activity", value: "activity" },
-  { label: "completed", value: "isCompleted:true", parent: "activity" },
+  { label: "completed", value: "isComplete:true", parent: "activity" },
   { label: "public", value: "public" },
   { label: "public", value: "isPublic:true", parent: "public" },
 ];

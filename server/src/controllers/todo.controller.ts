@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction, json } from "express";
+import { Response, Request } from "express";
 import { Errors, Success } from "../services/message.service.response";
 import TodoService from "../services/todo.service";
 
@@ -6,12 +6,14 @@ export class TodoController {
   constructor(private todoService: TodoService) {}
   async getAllToDo(_: Request, res: Response) {
     const { current, size, options } = _.query;
-    console.log(options, "controller");
+    const { isComplete, isPublic } = JSON.parse(String(options));
     const data = await this.todoService.recieveAll(
       Number(current),
       Number(size),
-      JSON.parse(String(options))
+      Boolean(isPublic),
+      Boolean(isComplete)
     );
+
     res.send({ message: Success.SuccessGet, data });
   }
 

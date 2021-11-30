@@ -5,14 +5,13 @@ export default class TodoService {
   async recieveAll(
     current: number,
     size: number,
-    options: { isComplete?: boolean; isPublic?: boolean }
+    isComplete: boolean,
+    isPublic: boolean
   ) {
     const currentPage = current || 1;
     const pageSize = size || 5;
     const skipElements = (currentPage - 1) * pageSize;
-    return await Todo.find({
-      isCompleted: true,
-    })
+    return await Todo.find({ isComplete: isPublic, isPublic: isComplete })
       .skip(skipElements)
       .limit(pageSize);
   }

@@ -19,7 +19,11 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
   const [items, setItems] = useState(pickerArr);
+  const options = getValuesFromConverterPicker(value);
 
+  // console.log(isPublic);
+  // console.log(isComplete);
+  // isPublic: isPublic,
   const { data, isLoading, isSuccess, isError } = useQuery(
     [
       "todos",
@@ -28,7 +32,7 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
         limit,
         token,
         isExist,
-        options: getValuesFromConverterPicker(value),
+        options,
       },
     ],
     instance.gets.bind(instance)
