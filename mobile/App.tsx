@@ -1,19 +1,20 @@
-// import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import Navigator from "./src/screens/navigators/index";
-// import { ReactQueryDevtoolsPanel } from "react-query/devtools";
+import HomeBottomTabs from "./src/screens/navigators/BottomTabs";
+import { LogInContext } from "./src/screens/Auth/hooks/contextLoggin";
 
 export default function App() {
   const queryClient = new QueryClient();
+  const [isLoggenIn, setLoggenIn] = useState<boolean>(false);
 
   return (
     <NavigationContainer>
       <QueryClientProvider client={queryClient}>
-        <Navigator />
-        {/* <ReactQueryDevtoolsPanel setIsOpen={false} /> */}
+        <LogInContext.Provider value={{ isLoggenIn, setLoggenIn }}>
+          <HomeBottomTabs isLoggenIn={isLoggenIn} />
+        </LogInContext.Provider>
       </QueryClientProvider>
     </NavigationContainer>
   );

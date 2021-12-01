@@ -9,14 +9,14 @@ import { useNavigation } from "@react-navigation/native";
 import { getTokenInfo } from "../../utils/useToken";
 
 const ToDoCreateScreen = () => {
-  const navigation = useNavigation();
   const queryClient = useQueryClient();
   const { token } = getTokenInfo();
+  const { navigate } = useNavigation<{ navigate: (p: string) => void }>();
   const submitFormHandler = useCallback((obj: IToDo) => {
     return instance
       .add(obj, token)
       .then(() => queryClient.invalidateQueries("todos"))
-      .then(() => navigation.goBack());
+      .then(() => navigate("ToDoScreen"));
   }, []);
 
   return (

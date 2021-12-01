@@ -1,27 +1,21 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { IToDoScreenProp } from "../../types/navigation.type";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { useLoginContext } from "../Auth/hooks/contextLoggin";
 import { getTokenInfo } from "../ToDo/utils/useToken";
 import instance from "../../service/user.service";
+import { useNavigation } from "@react-navigation/native";
 
-const HomeScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
+const HomeScreen = () => {
+  const { setLoggenIn } = useLoginContext();
   const { token, isExist } = getTokenInfo();
-
   useEffect(() => {
     instance
       .auth(token, isExist)
-      .then(
-        (status: number) => status === 200 && navigation.navigate("ToDoScreen")
-      );
+      .then((status: number) => status === 200 && setLoggenIn(true));
   }, [token]);
-
-  const navigationLoginHandler = () => {
-    return navigation.navigate("LoginScreen");
-  };
-
-  const navigationRegisterHandler = () => {
-    navigation.navigate("RegisterScreen");
-  };
+  const { navigate } = useNavigation<{ navigate: (p: string) => void }>();
+  const navigationLoginHandler = () => navigate("LoginScreen");
+  const navigationRegisterHandler = () => navigate("RegisterScreen");
 
   return (
     <>
@@ -48,7 +42,6 @@ const HomeScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   title: {
-    // marginTop: "40%",
     fontSize: 48,
     fontWeight: "700",
     textAlign: "center",

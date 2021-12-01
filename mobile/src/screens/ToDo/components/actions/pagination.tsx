@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 interface IStateProp {
   currentPage: number;
@@ -20,7 +20,7 @@ const Pagination = ({
     setCurrentPage(currentPage + 1);
   };
   return (
-    <>
+    <View style={styles.container}>
       <TouchableOpacity
         style={
           isFirstPage
@@ -43,15 +43,20 @@ const Pagination = ({
       >
         <Text style={styles.btnActionText}>next</Text>
       </TouchableOpacity>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 16,
+    marginTop: 32,
+  },
   prevBtnAction: {
-    position: "absolute",
-    bottom: 20,
-    left: 40,
     borderWidth: 1,
     borderColor: "#333",
     borderRadius: 8,
@@ -63,9 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   nextBtnAction: {
-    position: "absolute",
-    bottom: 20,
-    right: 40,
     borderWidth: 1,
     borderColor: "#333",
     borderRadius: 8,

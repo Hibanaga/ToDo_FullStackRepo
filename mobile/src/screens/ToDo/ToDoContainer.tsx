@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { IToDoScreenProp } from "../../types/navigation.type";
+import { StyleSheet, View, Text } from "react-native";
 import { useQuery, useQueryClient } from "react-query";
 import instance from "../../service/todos.service";
 import Pagination from "./components/actions/Pagination";
@@ -10,8 +9,9 @@ import Preloader from "./components/actions/Preloader";
 import DropDownPicker from "react-native-dropdown-picker";
 import { getValuesFromConverterPicker } from "./utils/convertedPicker";
 import { pickerArr } from "./constants/info.constants";
+import { useNavigation } from "@react-navigation/native";
 
-const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
+const ToDoScreen = () => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 4;
@@ -20,10 +20,8 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const [value, setValue] = useState([]);
   const [items, setItems] = useState(pickerArr);
   const options = getValuesFromConverterPicker(value);
-
-  // console.log(isPublic);
-  // console.log(isComplete);
-  // isPublic: isPublic,
+  const { navigate } =
+    useNavigation<{ navigate: (p: string, p1?: { _id: string }) => void }>();
   const { data, isLoading, isSuccess, isError } = useQuery(
     [
       "todos",
@@ -38,8 +36,9 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
     instance.gets.bind(instance)
   );
   const editToDosHandler = useCallback((_id: string) => {
-    navigation.navigate("ToDoEdit", { _id });
+    navigate("ToDoEdit", { _id });
   }, []);
+
   const deleteToDosHandler = useCallback(
     (_id: string, tokenDelete: string | null | undefined) => {
       return instance
@@ -48,15 +47,16 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
     },
     []
   );
-  const navigationHadler = () => {
-    return navigation.navigate("TodoAdd");
-  };
+
   return (
     <View style={styles.container}>
       {isSuccess && (
-        <TouchableOpacity style={styles.routeCreate} onPress={navigationHadler}>
-          <Text>Create new Todo</Text>
-        </TouchableOpacity>
+        <Pagination
+          currentPage={currentPage}
+          isFirstPage={currentPage <= 1}
+          isLastPage={data.length < limit}
+          setCurrentPage={setCurrentPage}
+        />
       )}
       {isSuccess && (
         <DropDownPicker
@@ -84,14 +84,6 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
           onEditToDosHandler={editToDosHandler}
         />
       )}
-      {isSuccess && (
-        <Pagination
-          currentPage={currentPage}
-          isFirstPage={currentPage <= 1}
-          isLastPage={data.length < limit}
-          setCurrentPage={setCurrentPage}
-        />
-      )}
     </View>
   );
 };
@@ -107,7 +99,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
   },
   dropDownPicker: {
-    marginTop: 16,
+    marginTop: 0,
   },
   routeCreate: {
     borderColor: "#333",

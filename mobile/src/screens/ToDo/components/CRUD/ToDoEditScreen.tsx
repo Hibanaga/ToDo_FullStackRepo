@@ -9,7 +9,7 @@ import instance from "../../../../service/todos.service";
 import { getTokenInfo } from "../../utils/useToken";
 
 const ToDoEditScreen = () => {
-  const navigation = useNavigation();
+  const { navigate } = useNavigation<{ navigate: (p: string) => void }>();
   const route: IRoute = useRoute();
   const { _id } = route.params;
   const { token, isExist } = getTokenInfo();
@@ -25,7 +25,7 @@ const ToDoEditScreen = () => {
       instance
         .update(obj, token)
         .then(() => queryClient.invalidateQueries("todos"))
-        .then(() => navigation.goBack());
+        .then(() => navigate("ToDoScreen"));
   }, []);
   return (
     <View style={styles.container}>
