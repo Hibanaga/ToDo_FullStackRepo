@@ -1,8 +1,8 @@
 import { ILoginProp, IRegisterProp } from "../../../types/user.type";
 
 const initialStateLogin: ILoginProp = {
-  email: "123@gmail.com",
-  password: "12345",
+  email: "",
+  password: "",
 };
 
 const initialStateRegister: IRegisterProp = {

@@ -22,7 +22,11 @@ const Pagination = ({
   return (
     <>
       <TouchableOpacity
-        style={styles.prevBtnAction}
+        style={
+          isFirstPage
+            ? { ...styles.prevBtnAction, ...styles.blockedBtnPagination }
+            : styles.prevBtnAction
+        }
         disabled={isFirstPage}
         onPress={handleChangePrevPage}
       >
@@ -46,7 +50,7 @@ const Pagination = ({
 const styles = StyleSheet.create({
   prevBtnAction: {
     position: "absolute",
-    bottom: 80,
+    bottom: 20,
     left: 40,
     borderWidth: 1,
     borderColor: "#333",
@@ -60,7 +64,7 @@ const styles = StyleSheet.create({
   },
   nextBtnAction: {
     position: "absolute",
-    bottom: 80,
+    bottom: 20,
     right: 40,
     borderWidth: 1,
     borderColor: "#333",
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   blockedBtnPagination: {
-    backgroundColor: "#a5a5a58b",
+    backgroundColor: "#d4d4d48a",
   },
   btnActionText: {
     fontSize: 32,

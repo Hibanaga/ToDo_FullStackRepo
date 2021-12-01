@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { IToDoElement } from "../../../types/todos.type";
 import { infoToDos } from "../constants/info.constants";
-
+import { getHidenDescription } from "../utils/validationHelpers";
 const TodoElement = ({
   _id,
   description,
@@ -14,6 +14,10 @@ const TodoElement = ({
   onDeleteToDosHandler,
   onEditToDosHandler,
 }: IToDoElement) => {
+  const [isOpenDescription, setOpenDescription] = useState(false);
+  const toggleDescriptionHandler = () => {
+    setOpenDescription(!isOpenDescription);
+  };
   const editToDosHandler = () => {
     onEditToDosHandler(_id);
   };
@@ -29,7 +33,9 @@ const TodoElement = ({
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.title}>{year}</Text>
         </View>
-        <Text style={styles.description}>{description}</Text>
+        <Text onPress={toggleDescriptionHandler} style={styles.description}>
+          {getHidenDescription(isOpenDescription, description)}
+        </Text>
         <View style={styles.containerBoolean}>
           <Text style={styles.textBoolean}>
             {isComplete === true
@@ -94,6 +100,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     fontSize: 16,
     marginTop: 8,
+    width: 120,
   },
   textBoolean: {
     marginLeft: 8,

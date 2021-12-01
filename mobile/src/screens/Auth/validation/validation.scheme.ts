@@ -3,6 +3,7 @@ import * as yup from "yup";
 const LoginValidateScheme = yup.object().shape({
   email: yup
     .string()
+    .email()
     .min(3, "min. 3 characters")
     .max(25, "max. 25 characters")
     .required(),

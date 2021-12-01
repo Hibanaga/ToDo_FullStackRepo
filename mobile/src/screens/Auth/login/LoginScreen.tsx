@@ -42,7 +42,6 @@ const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  // phone title margintop: 40%
   title: {
     marginTop: "10%",
     fontSize: 32,

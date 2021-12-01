@@ -29,7 +29,7 @@ export default function LoginForm({ onSubmitLoginFormHandler }: IStateProp) {
             <ErrorNotifications message={errors.email} />
             <TextInput
               style={styles.textInput}
-              placeholder="Username/email"
+              placeholder="email"
               onChangeText={handleChange("email")}
               value={values.email}
             />

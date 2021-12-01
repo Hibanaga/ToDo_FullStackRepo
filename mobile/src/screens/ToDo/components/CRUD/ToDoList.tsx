@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { StyleSheet, View, FlatList, ScrollView } from "react-native";
 import { IToDoMap, IRenderProp } from "../../../../types/todos.type";
 import TodoElement from "../TodoElement";
 
@@ -34,12 +34,22 @@ const ToDoList = ({
   );
 
   return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item) => item._id}
-    />
+    <View style={styles.container}>
+      <ScrollView>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item._id}
+        />
+      </ScrollView>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: 500,
+  },
+});
 
 export default React.memo(ToDoList);
