@@ -13,12 +13,12 @@ interface IStateProp {
   token: string | null | undefined;
 }
 
-export default function ToDoList({
+const ToDoList = ({
   data,
   onEditToDosHandler,
   token,
   onDeleteToDosHandler,
-}: IStateProp) {
+}: IStateProp) => {
   const renderItem = ({ item }: IRenderProp) => (
     <TodoElement
       _id={item._id}
@@ -40,4 +40,6 @@ export default function ToDoList({
       keyExtractor={(item) => item._id}
     />
   );
-}
+};
+
+export default React.memo(ToDoList);

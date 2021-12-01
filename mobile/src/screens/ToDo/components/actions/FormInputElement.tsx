@@ -7,7 +7,6 @@ interface IStateProp {
   propName: string;
   value: string;
   error: string | undefined;
-
   onHandleChange: any;
 }
 
@@ -16,7 +15,6 @@ export default function FormInputElement({
   value,
   propName,
   error,
-
   onHandleChange,
 }: IStateProp) {
   return (

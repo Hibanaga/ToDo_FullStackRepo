@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, ActivityIndicator } from "react-native";
 
-export default function Preloader() {
+const Preloader = () => {
   return (
     <View style={styles.container}>
       <ActivityIndicator
@@ -11,7 +11,7 @@ export default function Preloader() {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -26,3 +26,5 @@ const styles = StyleSheet.create({
     top: "45%",
   },
 });
+
+export default Preloader;

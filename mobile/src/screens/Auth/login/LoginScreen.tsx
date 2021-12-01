@@ -7,7 +7,6 @@ import ErrorNotifications from "../components/ErrorNotifications";
 
 const LoginScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
   const [messageError, setMessageError] = useState("");
-
   const submitLoginFormHandler = useCallback((objValues: any) => {
     instance.login(objValues).then((data) => {
       return typeof data === "string"

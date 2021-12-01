@@ -29,22 +29,18 @@ const TodoElement = ({
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.title}>{year}</Text>
         </View>
-
         <Text style={styles.description}>{description}</Text>
-
         <View style={styles.containerBoolean}>
           <Text style={styles.textBoolean}>
             {isComplete === true
               ? infoToDos.complete.true
               : infoToDos.complete.false}
           </Text>
-
           <Text style={styles.textBoolean}>
             {isPublic === true ? infoToDos.public.true : infoToDos.public.false}
           </Text>
         </View>
       </View>
-
       <View style={styles.containerActions}>
         <TouchableOpacity
           style={styles.buttonAction}
@@ -52,7 +48,6 @@ const TodoElement = ({
         >
           <Text style={styles.buttonActionText}>edit</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={styles.buttonAction}
           onPress={deleteToDosHandler}

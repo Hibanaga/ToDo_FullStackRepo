@@ -36,7 +36,6 @@ const FormTodo = ({ onSubmitFormHandler, state, option }: IStateProp) => {
             value={values.title}
             onHandleChange={handleChange}
           />
-
           <FormInputElement
             title={"Description"}
             propName={"description"}
@@ -44,7 +43,6 @@ const FormTodo = ({ onSubmitFormHandler, state, option }: IStateProp) => {
             value={values.description}
             onHandleChange={handleChange}
           />
-
           <FormInputElement
             title={"Year"}
             propName={"year"}
@@ -61,7 +59,6 @@ const FormTodo = ({ onSubmitFormHandler, state, option }: IStateProp) => {
               propName={"isPublic"}
               onSetFieldValue={setFieldValue}
             />
-
             <FormCheckboxElement
               title={"Completed"}
               value={values.isComplete}
@@ -70,7 +67,6 @@ const FormTodo = ({ onSubmitFormHandler, state, option }: IStateProp) => {
               onSetFieldValue={setFieldValue}
             />
           </View>
-
           <TouchableOpacity
             style={styles.buttonSubmit}
             onPress={handleSubmit as any}

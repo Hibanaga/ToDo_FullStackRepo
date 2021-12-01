@@ -6,12 +6,4 @@ interface IToDoScreenProp {
   navigation: ToDoAddScreenNavigationProps;
 }
 
-interface IRedirectScreenProp {
-  navigation: ToDoAddScreenNavigationProps;
-  firstScreenRouteName: string;
-  firstScreenRouteTitle: string;
-  secondScreenRouteName: string;
-  secondScreenRouteTitle: string;
-}
-
-export { IToDoScreenProp, IRedirectScreenProp };
+export { IToDoScreenProp };

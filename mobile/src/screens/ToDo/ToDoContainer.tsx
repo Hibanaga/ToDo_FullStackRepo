@@ -37,11 +37,9 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
     ],
     instance.gets.bind(instance)
   );
-
   const editToDosHandler = useCallback((_id: string) => {
     navigation.navigate("ToDoEdit", { _id });
   }, []);
-
   const deleteToDosHandler = useCallback(
     (_id: string, tokenDelete: string | null | undefined) => {
       return instance
@@ -50,11 +48,9 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
     },
     []
   );
-
   const navigationHadler = () => {
     return navigation.navigate("TodoAdd");
   };
-
   return (
     <View style={styles.container}>
       {isSuccess && (
@@ -62,7 +58,6 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
           <Text>Create new Todo</Text>
         </TouchableOpacity>
       )}
-
       {isSuccess && (
         <DropDownPicker
           multiple={true}
@@ -76,16 +71,12 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
           style={styles.dropDownPicker}
         />
       )}
-
       {isError && <Text>Error...</Text>}
-
       {isLoading && <Preloader />}
-
       {isSuccess && !isError && data.length === 0 && (
         <Text>This page is already empty...</Text>
       )}
-
-      {isSuccess === true && (
+      {isSuccess && (
         <ToDoList
           data={data}
           token={token}
@@ -93,13 +84,11 @@ const ToDoScreen: React.FC<IToDoScreenProp> = ({ navigation }) => {
           onEditToDosHandler={editToDosHandler}
         />
       )}
-
       {isSuccess && (
         <Pagination
           currentPage={currentPage}
-          isSuccess={isSuccess}
-          limit={limit}
-          length={data.length}
+          isFirstPage={currentPage <= 1}
+          isLastPage={data.length < limit}
           setCurrentPage={setCurrentPage}
         />
       )}
@@ -134,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ToDoScreen;
+export default React.memo(ToDoScreen);

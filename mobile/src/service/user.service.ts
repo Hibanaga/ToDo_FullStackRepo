@@ -16,7 +16,7 @@ class UserService extends StorageService {
       method: "post",
       url: "login",
       data: { ...data },
-    }).then((data: any) => {
+    }).then((data: { data: { token: string | undefined } }) => {
       if (data.data.token === undefined) {
         return data.data;
       } else {
@@ -31,7 +31,7 @@ class UserService extends StorageService {
       method: "post",
       url: "register",
       data: { ...data },
-    }).then((data: any) => {
+    }).then((data: { data: { token: string | undefined } }) => {
       if (data.data.token === undefined) {
         return data.data;
       } else {

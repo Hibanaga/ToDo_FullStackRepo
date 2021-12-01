@@ -3,23 +3,27 @@ import axios from "axios";
 
 class ToDoService {
   instance: any;
-
   constructor() {
     this.instance = axios.create({
       baseURL: "http://192.168.0.21:5000/api/todos",
     });
   }
-
   async gets({ queryKey }: any) {
+    // props
+    const currentPage: number = queryKey[1].currentPage;
+    const sizePage: number = queryKey[1].limit;
+    const options: { isComplete?: boolean; isPublic?: boolean } =
+      queryKey[1].options;
+    const isExist: boolean = queryKey[1].isExist;
     return (
-      queryKey[1].isExist &&
+      isExist &&
       (await this.instance({
         method: "get",
         url: "/getAll",
         params: {
-          current: queryKey[1].currentPage,
-          size: queryKey[1].limit,
-          options: queryKey[1].options,
+          current: currentPage,
+          size: sizePage,
+          options: options,
         },
         headers: { Authorization: `Bearer ${queryKey[1].token}` },
       }).then((res: { data: { data: [IToDo] } }) => res.data.data))
@@ -27,12 +31,15 @@ class ToDoService {
   }
 
   async get({ queryKey }: any) {
+    const isExist: boolean = queryKey[1].isExist;
+    const _id: string = queryKey[1]._id;
+    const token: string | null | undefined = queryKey[1].token;
     return (
-      queryKey[1].isExist &&
+      isExist &&
       this.instance({
         method: "get",
-        params: { _id: queryKey[1]._id },
-        headers: { Authorization: `Bearer ${queryKey[1].token}` },
+        params: { _id: _id },
+        headers: { Authorization: `Bearer ${token}` },
       }).then((res: { data: { data: IToDo } }) => res.data.data)
     );
   }

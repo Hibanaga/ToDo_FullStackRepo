@@ -3,16 +3,14 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface IStateProp {
   currentPage: number;
-  isSuccess: boolean;
-  limit: number;
-  length: number;
+  isFirstPage: boolean;
+  isLastPage: boolean;
   setCurrentPage: (prop: number) => void;
 }
-
 const Pagination = ({
   currentPage,
-  limit,
-  length,
+  isFirstPage,
+  isLastPage,
   setCurrentPage,
 }: IStateProp) => {
   const handleChangePrevPage = () => {
@@ -21,23 +19,22 @@ const Pagination = ({
   const handleChangeNextPage = () => {
     setCurrentPage(currentPage + 1);
   };
-
   return (
     <>
       <TouchableOpacity
         style={styles.prevBtnAction}
-        disabled={currentPage <= 1}
+        disabled={isFirstPage}
         onPress={handleChangePrevPage}
       >
         <Text style={styles.btnActionText}>prev</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={
-          length < limit
+          isLastPage
             ? { ...styles.nextBtnAction, ...styles.blockedBtnPagination }
             : styles.nextBtnAction
         }
-        disabled={length < limit}
+        disabled={isLastPage}
         onPress={handleChangeNextPage as any}
       >
         <Text style={styles.btnActionText}>next</Text>
@@ -84,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Pagination;
+export default React.memo(Pagination);
