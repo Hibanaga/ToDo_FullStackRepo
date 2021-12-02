@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TextInput } from "react-native";
 import { useQuery, useQueryClient } from "react-query";
 import instance from "../../service/todos.service";
 import Pagination from "./components/actions/Pagination";
@@ -10,12 +10,17 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { getValuesFromConverterPicker } from "./utils/convertedPicker";
 import { pickerArr } from "./constants/info.constants";
 import { useNavigation } from "@react-navigation/native";
+import { debounce } from "lodash";
 
 const ToDoScreen = () => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 4;
   const { token, isExist } = getTokenInfo();
+  // text input
+  const [text, setText] = useState("");
+  // debounce text
+  const [debounceText, setDebounceText] = useState("");
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
   const [items, setItems] = useState(pickerArr);
@@ -31,10 +36,12 @@ const ToDoScreen = () => {
         token,
         isExist,
         options,
+        text: debounceText,
       },
     ],
     instance.gets.bind(instance)
   );
+
   const editToDosHandler = useCallback((_id: string) => {
     navigate("ToDoEdit", { _id });
   }, []);
@@ -48,6 +55,16 @@ const ToDoScreen = () => {
     []
   );
 
+  const debounceSave = useCallback(
+    debounce((value) => setDebounceText(value), 1000),
+    []
+  );
+
+  const changeSearchBoxHandler = (text: string) => {
+    setText(text);
+    debounceSave(text);
+  };
+
   return (
     <View style={styles.container}>
       {isSuccess && (
@@ -56,6 +73,14 @@ const ToDoScreen = () => {
           isFirstPage={currentPage <= 1}
           isLastPage={data.length < limit}
           setCurrentPage={setCurrentPage}
+        />
+      )}
+
+      {isSuccess && (
+        <TextInput
+          value={text}
+          style={styles.input}
+          onChangeText={changeSearchBoxHandler}
         />
       )}
       {isSuccess && (
@@ -97,6 +122,10 @@ const styles = StyleSheet.create({
     width: 340,
     marginLeft: "auto",
     marginRight: "auto",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#333",
   },
   dropDownPicker: {
     marginTop: 0,

@@ -15,6 +15,7 @@ class ToDoService {
     const options: { isComplete?: boolean; isPublic?: boolean } =
       queryKey[1].options;
     const isExist: boolean = queryKey[1].isExist;
+    const text: string = queryKey[1].text;
     return (
       isExist &&
       (await this.instance({
@@ -24,6 +25,7 @@ class ToDoService {
           current: currentPage,
           size: sizePage,
           options: options,
+          text: text,
         },
         headers: { Authorization: `Bearer ${queryKey[1].token}` },
       }).then((res: { data: { data: [IToDo] } }) => res.data.data))

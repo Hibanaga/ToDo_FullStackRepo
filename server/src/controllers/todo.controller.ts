@@ -5,13 +5,16 @@ import TodoService from "../services/todo.service";
 export class TodoController {
   constructor(private todoService: TodoService) {}
   async getAllToDo(_: Request, res: Response) {
-    const { current, size, options } = _.query;
+    const { current, size, options, text } = _.query;
+    // const { current, size, isComplete, isPublic, text } = _.query;
     const { isComplete, isPublic } = JSON.parse(String(options));
+
     const data = await this.todoService.recieveAll(
       Number(current),
       Number(size),
       Boolean(isPublic),
-      Boolean(isComplete)
+      Boolean(isComplete),
+      String(text)
     );
 
     res.send({ message: Success.SuccessGet, data });
