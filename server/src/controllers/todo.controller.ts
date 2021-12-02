@@ -7,8 +7,9 @@ export class TodoController {
   async getAllToDo(_: Request, res: Response) {
     const { current, size, options, text } = _.query;
     // const { current, size, isComplete, isPublic, text } = _.query;
-    const { isComplete, isPublic } = JSON.parse(String(options));
-
+    // const { isComplete, isPublic } = JSON.parse(String(options));
+    const isComplete = false;
+    const isPublic = false;
     const data = await this.todoService.recieveAll(
       Number(current),
       Number(size),

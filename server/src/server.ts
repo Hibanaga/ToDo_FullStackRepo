@@ -12,8 +12,12 @@ const router = new AppRouter(app);
 //connect passport middleware
 const passport = require("passport");
 import { JWTStategy } from "./middleware/auth.middleware";
+import Todo from "./models/ToDo";
 // Connect to MongoDB
 connectDB();
+//connect Graphql scheme
+const schema = require("./graphql/schema/schema");
+const resolvers = require("./graphql/resolvers/resolvers");
 
 // Express configuration
 app.set("port", process.env.PORT || 5000);
@@ -27,12 +31,12 @@ JWTStategy(passport);
 
 router.init();
 
-// TODO: Move that to model GraphQL
-const schema = buildSchema(`
-  type Query {
-    todos: String
-  }
-`);
+// // TODO: Move that to model GraphQL
+// const schema = buildSchema(`
+//   type Query {
+//     todos: String
+//   }
+// `);
 
 // TODO: Create graphQL controller
 const rootValue = {
@@ -41,13 +45,27 @@ const rootValue = {
     const todos = await axios.get("http://localhost:5000/api/todos");
     return todos.data;
   },
+  ...resolvers.Query,
+  ...resolvers.Mutation,
+  // allToDos: async () => {
+  //   return await Todo.find();
+  // },
 };
 
 // TODO: Move that to router init function ONLY AFTER MAIN PART OF APP
+// app.use(
+//   "/graphql",
+//   graphqlHTTP({
+//     schema,
+//     rootValue,
+//     graphiql: true,
+//   })
+// );
+
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema,
+    schema: schema,
     rootValue,
     graphiql: true,
   })

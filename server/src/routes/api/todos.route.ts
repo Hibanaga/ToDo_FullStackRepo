@@ -5,7 +5,6 @@ import todoController from "../../controllers/todo.controller";
 const passport = require("passport");
 
 const todosRouter: Router = Router();
-// passport.authenticate("jwt", { session: false }),
 
 todosRouter.get(
   "/getAll",
